@@ -1,17 +1,7 @@
-package com.example.garageshopfinalassignment.models;
+package com.example.garageshopfinalassignment.dtos;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name="customers")
-public class Customer {
-    @Id
-    @GeneratedValue
-    Long id;
-
+public class CustomerDto {
+    private Long id;
     private String firstName;
     private String lastName;
     private String address;
@@ -21,10 +11,10 @@ public class Customer {
     private String email;
 
 // constructors
-    public Customer() {
+    public CustomerDto() {
     }
 
-    public Customer(Long id, String firstName, String lastName, String address, String postcode, String residence, String phone, String email) {
+    public CustomerDto(Long id, String firstName, String lastName, String address, String postcode, String residence, String phone, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

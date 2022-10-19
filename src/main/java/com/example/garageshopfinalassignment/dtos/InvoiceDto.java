@@ -1,27 +1,17 @@
-package com.example.garageshopfinalassignment.models;
+package com.example.garageshopfinalassignment.dtos;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name="invoices")
-public class Invoice {
-    @Id
-    @GeneratedValue
-    Long id;
-
+public class InvoiceDto {
+    private Long id;
     private double taxPercentage;
     private double costBeforeTax;
     private double costAfterTax;
     private boolean paid;
 
 // constructors
-    public Invoice() {
+    public InvoiceDto() {
     }
 
-    public Invoice(Long id, double taxPercentage, double costBeforeTax, double costAfterTax, boolean paid) {
+    public InvoiceDto(Long id, double taxPercentage, double costBeforeTax, double costAfterTax, boolean paid) {
         this.id = id;
         this.taxPercentage = taxPercentage;
         this.costBeforeTax = costBeforeTax;

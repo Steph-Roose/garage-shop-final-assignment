@@ -1,25 +1,15 @@
-package com.example.garageshopfinalassignment.models;
+package com.example.garageshopfinalassignment.dtos;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name="actions")
-public class Action {
-    @Id
-    @GeneratedValue
-    Long id;
-
+public class ActionDto {
+    private Long id;
     private String actionName;
     private double actionCost;
 
 // constructors
-    public Action() {
+    public ActionDto() {
     }
 
-    public Action(Long id, String actionName, double actionCost) {
+    public ActionDto(Long id, String actionName, double actionCost) {
         this.id = id;
         this.actionName = actionName;
         this.actionCost = actionCost;

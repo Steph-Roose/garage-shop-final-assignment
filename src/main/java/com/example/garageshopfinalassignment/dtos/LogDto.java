@@ -1,19 +1,12 @@
-package com.example.garageshopfinalassignment.models;
+package com.example.garageshopfinalassignment.dtos;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.ArrayList;
+import com.example.garageshopfinalassignment.models.Log;
+
 import java.util.Date;
 
-@Entity
-@Table(name="logs")
-public class Log {
-    @Id
-    @GeneratedValue
-    Long id;
-    private LogStatus logStatus;
+public class LogDto {
+    private Long id;
+    private Log.LogStatus logStatus;
     private Date createdOn;
     private double totalPartsCost;
     private double totalCost;
@@ -28,10 +21,10 @@ public class Log {
     }
 
 // constructors
-    public Log() {
+    public LogDto() {
     }
 
-    public Log(Long id, LogStatus logStatus, Date createdOn, double totalPartsCost, double totalCost) {
+    public LogDto(Long id, Log.LogStatus logStatus, Date createdOn, double totalPartsCost, double totalCost) {
         this.id = id;
         this.logStatus = logStatus;
         this.createdOn = createdOn;
@@ -44,7 +37,7 @@ public class Log {
         return id;
     }
 
-    public LogStatus getLogStatus() {
+    public Log.LogStatus getLogStatus() {
         return logStatus;
     }
 
@@ -65,7 +58,7 @@ public class Log {
         this.id = id;
     }
 
-    public void setLogStatus(LogStatus logStatus) {
+    public void setLogStatus(Log.LogStatus logStatus) {
         this.logStatus = logStatus;
     }
 

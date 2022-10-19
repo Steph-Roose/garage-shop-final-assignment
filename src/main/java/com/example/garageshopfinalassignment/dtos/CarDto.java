@@ -1,13 +1,9 @@
-package com.example.garageshopfinalassignment.models;
+package com.example.garageshopfinalassignment.dtos;
 
-import javax.persistence.*;
+import javax.persistence.Lob;
 
-@Entity
-@Table(name="cars")
-public class Car {
-    @Id
-    @GeneratedValue
-    Long id;
+public class CarDto {
+    private Long id;
 
     private String brand;
     private String model;
@@ -16,11 +12,11 @@ public class Car {
     @Lob
     private byte[] carDocuments;
 
-// constructors
-    public Car() {
+//constructors
+    public CarDto() {
     }
 
-    public Car(Long id, String brand, String model, String licencePlate, byte[] carDocuments) {
+    public CarDto(Long id, String brand, String model, String licencePlate, byte[] carDocuments) {
         this.id = id;
         this.brand = brand;
         this.model = model;
