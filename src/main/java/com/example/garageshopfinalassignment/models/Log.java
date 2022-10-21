@@ -1,11 +1,9 @@
 package com.example.garageshopfinalassignment.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="logs")
@@ -26,6 +24,25 @@ public class Log {
         FINISHED,
         PAID;
     }
+
+// relationships
+    @ManyToOne
+    @JoinColumn(name = "invoice_id")
+    private Invoice invoice;
+
+    @ManyToOne
+    @JoinColumn(name = "car_id")
+    private Car car;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "action_id")
+    private Action action;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "log_part",
+        joinColumns = @JoinColumn(name = "part_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "log_id", referencedColumnName = "id"))
+    private List<Part> usedParts;
 
 // constructors
     public Log() {

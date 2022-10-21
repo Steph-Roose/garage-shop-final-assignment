@@ -1,9 +1,7 @@
 package com.example.garageshopfinalassignment.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="actions")
@@ -14,6 +12,10 @@ public class Action {
 
     private String actionName;
     private double actionCost;
+
+// relationships
+    @OneToMany(mappedBy = "action")
+    private List<Log> logs;
 
 // constructors
     public Action() {
