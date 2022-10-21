@@ -10,7 +10,7 @@ import java.util.List;
 public class Log {
     @Id
     @GeneratedValue
-    Long id;
+    private Long id;
     private LogStatus logStatus;
     private Date createdOn;
     private double totalPartsCost;
@@ -39,7 +39,7 @@ public class Log {
     private Action action;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "log_part",
+    @JoinTable(name = "logs_parts",
         joinColumns = @JoinColumn(name = "part_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "log_id", referencedColumnName = "id"))
     private List<Part> usedParts;
@@ -48,8 +48,7 @@ public class Log {
     public Log() {
     }
 
-    public Log(Long id, LogStatus logStatus, Date createdOn, double totalPartsCost, double totalCost) {
-        this.id = id;
+    public Log(LogStatus logStatus, Date createdOn, double totalPartsCost, double totalCost) {
         this.logStatus = logStatus;
         this.createdOn = createdOn;
         this.totalPartsCost = totalPartsCost;
@@ -78,10 +77,6 @@ public class Log {
     }
 
 // setters
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setLogStatus(LogStatus logStatus) {
         this.logStatus = logStatus;
     }

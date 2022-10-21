@@ -8,7 +8,7 @@ import java.util.List;
 public class Invoice {
     @Id
     @GeneratedValue
-    Long id;
+    private Long id;
 
     private double taxPercentage;
     private double costBeforeTax;
@@ -27,8 +27,7 @@ public class Invoice {
     public Invoice() {
     }
 
-    public Invoice(Long id, double taxPercentage, double costBeforeTax, double costAfterTax, boolean paid) {
-        this.id = id;
+    public Invoice(double taxPercentage, double costBeforeTax, double costAfterTax, boolean paid) {
         this.taxPercentage = taxPercentage;
         this.costBeforeTax = costBeforeTax;
         this.costAfterTax = costAfterTax;
@@ -57,10 +56,6 @@ public class Invoice {
     }
 
 // setters
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setTaxPercentage(double taxPercentage) {
         this.taxPercentage = taxPercentage;
     }

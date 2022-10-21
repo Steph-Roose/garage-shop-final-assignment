@@ -8,7 +8,7 @@ import java.util.List;
 public class Customer {
     @Id
     @GeneratedValue
-    Long id;
+    private Long id;
 
     private String firstName;
     private String lastName;
@@ -30,8 +30,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Long id, String firstName, String lastName, String address, String postcode, String residence, String phone, String email) {
-        this.id = id;
+    public Customer(String firstName, String lastName, String address, String postcode, String residence, String phone, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -75,10 +74,6 @@ public class Customer {
     }
 
 // setters
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
