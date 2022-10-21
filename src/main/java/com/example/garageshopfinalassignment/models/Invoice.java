@@ -1,9 +1,7 @@
 package com.example.garageshopfinalassignment.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="invoices")
@@ -16,6 +14,14 @@ public class Invoice {
     private double costBeforeTax;
     private double costAfterTax;
     private boolean paid;
+
+// relationships
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    @OneToMany(mappedBy = "invoice", fetch = FetchType.EAGER)
+    private List<Log> finishedLogs;
 
 // constructors
     public Invoice() {

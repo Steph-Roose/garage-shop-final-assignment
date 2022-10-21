@@ -1,6 +1,7 @@
 package com.example.garageshopfinalassignment.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="cars")
@@ -15,6 +16,13 @@ public class Car {
 
     @Lob
     private byte[] carDocuments;
+
+// relationships
+    @OneToOne(mappedBy = "car")
+    private Customer customer;
+
+    @OneToMany(mappedBy = "car")
+    private List<Log> logbook;
 
 // constructors
     public Car() {
