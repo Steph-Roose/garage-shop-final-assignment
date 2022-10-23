@@ -39,12 +39,20 @@ public class Part {
         return unitPrice;
     }
 
-// setters
+    public List<Log> getLogs() {
+        return logs;
+    }
+
+    // setters
     public void setPartName(String partName) {
         this.partName = partName;
     }
 
     public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
+    }
+
+    public void setLogs(List<Log> logs) {
+        this.logs = logs;
     }
 }

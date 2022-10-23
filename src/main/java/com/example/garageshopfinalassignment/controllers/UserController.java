@@ -38,10 +38,11 @@ public class UserController {
 
             userRoles.add(or.get());
         }
-        newUser.setRoles(userRoles);
 
-        userRepos.save(newUser);
+            newUser.setRoles(userRoles);
 
-        return "Done";
+            userRepos.save(newUser);
+
+            return "Created User: " + newUser.getUsername();
     }
 }

@@ -3,6 +3,7 @@ package com.example.garageshopfinalassignment.dtos;
 import com.example.garageshopfinalassignment.models.Log;
 
 import java.util.Date;
+import java.util.List;
 
 public class LogDto {
     private Long id;
@@ -10,15 +11,11 @@ public class LogDto {
     private Date createdOn;
     private double totalPartsCost;
     private double totalCost;
+    private InvoiceDto invoiceDto;
+    private CarDto carDto;
+    private ActionDto actionDto;
 
-// enum
-    public enum LogStatus {
-        NEEDS_APPROVAL,
-        SCHEDULED,
-        APPROVED,
-        FINISHED,
-        PAID;
-    }
+    private List<PartDto> usedPartsDto;
 
 // constructors
     public LogDto() {
@@ -53,7 +50,23 @@ public class LogDto {
         return totalCost;
     }
 
-// setters
+    public InvoiceDto getInvoiceDto() {
+        return invoiceDto;
+    }
+
+    public CarDto getCarDto() {
+        return carDto;
+    }
+
+    public ActionDto getActionDto() {
+        return actionDto;
+    }
+
+    public List<PartDto> getUsedPartsDto() {
+        return usedPartsDto;
+    }
+
+    // setters
     public void setId(Long id) {
         this.id = id;
     }
@@ -72,5 +85,21 @@ public class LogDto {
 
     public void setTotalCost(double totalCost) {
         this.totalCost = totalCost;
+    }
+
+    public void setInvoiceDto(InvoiceDto invoiceDto) {
+        this.invoiceDto = invoiceDto;
+    }
+
+    public void setCarDto(CarDto carDto) {
+        this.carDto = carDto;
+    }
+
+    public void setActionDto(ActionDto actionDto) {
+        this.actionDto = actionDto;
+    }
+
+    public void setUsedPartsDto(List<PartDto> usedPartsDto) {
+        this.usedPartsDto = usedPartsDto;
     }
 }

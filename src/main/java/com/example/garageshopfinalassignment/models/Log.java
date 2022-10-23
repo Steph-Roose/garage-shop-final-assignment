@@ -76,7 +76,23 @@ public class Log {
         return totalCost;
     }
 
-// setters
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public Action getAction() {
+        return action;
+    }
+
+    public List<Part> getUsedParts() {
+        return usedParts;
+    }
+
+    // setters
     public void setLogStatus(LogStatus logStatus) {
         this.logStatus = logStatus;
     }
@@ -91,5 +107,21 @@ public class Log {
 
     public void setTotalCost(double totalCost) {
         this.totalCost = totalCost;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
+    public void setUsedParts(List<Part> usedParts) {
+        this.usedParts = usedParts;
     }
 }

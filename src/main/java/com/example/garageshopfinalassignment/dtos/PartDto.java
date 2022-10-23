@@ -1,5 +1,7 @@
 package com.example.garageshopfinalassignment.dtos;
 
+import java.util.List;
+
 public class PartDto {
     private Long id;
     private String partName;

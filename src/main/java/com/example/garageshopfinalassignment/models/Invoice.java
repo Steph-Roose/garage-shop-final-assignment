@@ -27,8 +27,8 @@ public class Invoice {
     public Invoice() {
     }
 
-    public Invoice(double taxPercentage, double costBeforeTax, double costAfterTax, boolean paid) {
-        this.taxPercentage = taxPercentage;
+    public Invoice(double costBeforeTax, double costAfterTax, boolean paid) {
+        this.taxPercentage = 0.21;
         this.costBeforeTax = costBeforeTax;
         this.costAfterTax = costAfterTax;
         this.paid = paid;
@@ -55,7 +55,15 @@ public class Invoice {
         return paid;
     }
 
-// setters
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public List<Log> getFinishedLogs() {
+        return finishedLogs;
+    }
+
+    // setters
     public void setTaxPercentage(double taxPercentage) {
         this.taxPercentage = taxPercentage;
     }
@@ -70,5 +78,13 @@ public class Invoice {
 
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void setFinishedLogs(List<Log> finishedLogs) {
+        this.finishedLogs = finishedLogs;
     }
 }

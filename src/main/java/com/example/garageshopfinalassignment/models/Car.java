@@ -23,7 +23,7 @@ public class Car {
     private Customer customer;
 
     @OneToMany(mappedBy = "car")
-    private List<Log> logbook;
+    private List<Log> logBook;
 
 // constructors
     public Car() {
@@ -52,7 +52,19 @@ public class Car {
         return licencePlate;
     }
 
-// setters
+    public File getCarDocuments() {
+        return carDocuments;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public List<Log> getLogBook() {
+        return logBook;
+    }
+
+    // setters
     public void setBrand(String brand) {
         this.brand = brand;
     }
@@ -65,4 +77,15 @@ public class Car {
         this.licencePlate = licencePlate;
     }
 
+    public void setCarDocuments(File carDocuments) {
+        this.carDocuments = carDocuments;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void setLogBook(List<Log> logBook) {
+        this.logBook = logBook;
+    }
 }

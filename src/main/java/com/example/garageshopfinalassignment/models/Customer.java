@@ -73,7 +73,15 @@ public class Customer {
         return email;
     }
 
-// setters
+    public Car getCar() {
+        return car;
+    }
+
+    public List<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    // setters
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -100,5 +108,13 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
+    public void setInvoices(List<Invoice> invoices) {
+        this.invoices = invoices;
     }
 }
