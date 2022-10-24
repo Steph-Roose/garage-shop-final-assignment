@@ -63,7 +63,11 @@ public class Invoice {
         return finishedLogs;
     }
 
-    // setters
+// setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setTaxPercentage(double taxPercentage) {
         this.taxPercentage = taxPercentage;
     }

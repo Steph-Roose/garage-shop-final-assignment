@@ -92,7 +92,11 @@ public class Log {
         return usedParts;
     }
 
-    // setters
+// setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setLogStatus(LogStatus logStatus) {
         this.logStatus = logStatus;
     }

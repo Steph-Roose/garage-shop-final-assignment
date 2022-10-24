@@ -43,7 +43,11 @@ public class Part {
         return logs;
     }
 
-    // setters
+// setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setPartName(String partName) {
         this.partName = partName;
     }

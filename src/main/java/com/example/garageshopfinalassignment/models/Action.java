@@ -40,6 +40,11 @@ public class Action {
     }
 
 // setters
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setActionName(String actionName) {
         this.actionName = actionName;
     }

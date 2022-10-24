@@ -65,6 +65,11 @@ public class Car {
     }
 
     // setters
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setBrand(String brand) {
         this.brand = brand;
     }
