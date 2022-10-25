@@ -1,9 +1,7 @@
 package com.example.garageshopfinalassignment.services;
 
-import com.example.garageshopfinalassignment.dtos.ActionDto;
 import com.example.garageshopfinalassignment.dtos.PartDto;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
-import com.example.garageshopfinalassignment.models.Action;
 import com.example.garageshopfinalassignment.models.Part;
 import com.example.garageshopfinalassignment.repositories.PartRepository;
 import org.springframework.stereotype.Service;
@@ -15,12 +13,12 @@ import java.util.List;
 public class PartService {
     private final PartRepository partRepos;
 
-// constructor
+    // constructor
     public PartService(PartRepository partRepos) {
         this.partRepos = partRepos;
     }
 
-// methods
+    // methods
     public PartDto addPart(PartDto dto) {
         Part part = toPart(dto);
         partRepos.save(part);
@@ -96,3 +94,4 @@ public class PartService {
         return dto;
     }
 }
+
