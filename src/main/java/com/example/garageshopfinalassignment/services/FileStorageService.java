@@ -2,6 +2,7 @@ package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.models.File;
 import com.example.garageshopfinalassignment.repositories.FileRepository;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,7 @@ public class FileStorageService {
 
 // methods
     public File storeFile(MultipartFile file) throws IOException {
+
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
         File docFile = new File(fileName, file.getContentType(), file.getBytes());

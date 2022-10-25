@@ -1,6 +1,7 @@
 package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.dtos.LogDto;
+import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Log;
 import com.example.garageshopfinalassignment.repositories.LogRepository;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,59 @@ public class LogService {
         this.logRepos = logRepos;
     }
 
-    // methods
+// methods
+    public LogDto addLog(LogDto dto) {
+        Log log = toLog(dto);
+        logRepos.save(log);
+
+        return toLogDto(log);
+    }
+
+    public List<LogDto> getAllLogsByCarId(Long carId) {
+        List<Log> logList = logRepos.findAllLogsByCarId(carId);
+
+        if(logList != null) {
+            return logListToLogDtoList(logList);
+        } else {
+            throw new RecordNotFoundException("No logs found");
+        }
+    }
+
+    public LogDto getLogById(Long id) {
+        if(logRepos.findById(id).isPresent()) {
+            Log log = logRepos.findById(id).get();
+
+            return toLogDto(log);
+        } else {
+            throw new RecordNotFoundException("Couldn't find log");
+        }
+    }
+
+    public LogDto updateLog(Long id, LogDto dto) {
+        if(logRepos.findById(id).isPresent()) {
+            Log log = logRepos.findById(id).get();
+            Log log1 = toLog(dto);
+            log1.setId(log.getId());
+
+            logRepos.save(log1);
+
+            return toLogDto(log1);
+        } else {
+            throw new RecordNotFoundException("Couldn't find log");
+        }
+    }
+
+    public String deleteLog(Long id) {
+        if(logRepos.findById(id).isPresent()) {
+            logRepos.deleteById(id);
+
+            return "Log deleted";
+        } else {
+            throw new RecordNotFoundException("Couldn't find log");
+        }
+    }
+
+    // add parts to a log
 
     public List<LogDto> logListToLogDtoList(List<Log> logs) {
         List<LogDto> logDtoList = new ArrayList<>();

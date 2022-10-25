@@ -1,7 +1,5 @@
 package com.example.garageshopfinalassignment.dtos;
 
-import com.example.garageshopfinalassignment.models.Car;
-
 import java.util.List;
 
 public class CustomerDto {
@@ -31,7 +29,19 @@ public class CustomerDto {
         this.email = email;
     }
 
-// getters
+    public CustomerDto(Long id, String firstName, String lastName, String address, String postcode, String residence, String phone, String email, CarDto carDto) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.postcode = postcode;
+        this.residence = residence;
+        this.phone = phone;
+        this.email = email;
+        this.carDto = carDto;
+    }
+
+    // getters
     public Long getId() {
         return id;
     }

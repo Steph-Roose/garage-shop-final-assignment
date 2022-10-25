@@ -1,6 +1,7 @@
 package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.dtos.InvoiceDto;
+import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Invoice;
 import com.example.garageshopfinalassignment.repositories.InvoiceRepository;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,58 @@ public class InvoiceService {
     }
 
 // methods
+    public InvoiceDto createInvoice(InvoiceDto dto) {
+        Invoice invoice = toInvoice(dto);
+        invoiceRepos.save(invoice);
+
+        return toInvoiceDto(invoice);
+    }
+
+    public List<InvoiceDto> getAllInvoicesByCustomerId(Long customerId) {
+        List<Invoice> invoiceList = invoiceRepos.findAllInvoicesByCustomerId(customerId);
+
+        if(invoiceList != null) {
+            return invoiceListToInvoiceDtoList(invoiceList);
+        } else {
+            throw new RecordNotFoundException("No invoices found");
+        }
+    }
+
+    public InvoiceDto getInvoiceById(Long id) {
+        if(invoiceRepos.findById(id).isPresent()) {
+            Invoice invoice = invoiceRepos.findById(id).get();
+
+            return toInvoiceDto(invoice);
+        } else {
+            throw new RecordNotFoundException("Couldn't find invoice");
+        }
+    }
+
+    public InvoiceDto updateInvoice(Long id, InvoiceDto dto) {
+        if(invoiceRepos.findById(id).isPresent()) {
+            Invoice invoice = invoiceRepos.findById(id).get();
+            Invoice invoice1 = toInvoice(dto);
+            invoice1.setId(invoice.getId());
+
+            invoiceRepos.save(invoice1);
+
+            return toInvoiceDto(invoice1);
+        } else {
+            throw new RecordNotFoundException("Couldn't find invoice");
+        }
+    }
+
+    public String deleteInvoice(Long id) {
+        if(invoiceRepos.findById(id).isPresent()) {
+            invoiceRepos.deleteById(id);
+
+            return "Invoice deleted";
+        } else {
+            throw new RecordNotFoundException("Couldn't find invoice");
+        }
+    }
+    // add finished logs to invoice
+
     public List<InvoiceDto> invoiceListToInvoiceDtoList(List<Invoice> invoices) {
         List<InvoiceDto> invoiceDtoList = new ArrayList<>();
 

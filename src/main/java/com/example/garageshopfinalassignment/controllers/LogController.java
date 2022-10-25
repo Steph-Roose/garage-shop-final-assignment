@@ -1,7 +1,10 @@
 package com.example.garageshopfinalassignment.controllers;
 
+import com.example.garageshopfinalassignment.dtos.LogDto;
 import com.example.garageshopfinalassignment.services.LogService;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class LogController {
@@ -10,4 +13,32 @@ public class LogController {
     public LogController(LogService logService) {
         this.logService = logService;
     }
+
+// endpoints
+    @PostMapping("/logs")
+    public LogDto addLog(@RequestBody LogDto dto) {
+        return logService.addLog(dto);
+    }
+
+    @GetMapping("/logs")
+    public List<LogDto> getAllLogsByCarId(@RequestParam(value = "car_id") Long carId) {
+        return logService.getAllLogsByCarId(carId);
+    }
+
+    @GetMapping("/logs/{id}")
+    public LogDto getLogById(@PathVariable("id") Long id) {
+        return logService.getLogById(id);
+    }
+
+    @PutMapping("/logs/{id}")
+    public LogDto updateLog(@PathVariable("id") Long id, @RequestBody LogDto dto) {
+        return logService.updateLog(id, dto);
+    }
+
+    @DeleteMapping("/logs/{id}")
+    public String deleteLog(@PathVariable("id") Long id) {
+        return logService.deleteLog(id);
+    }
+
+    // addUsedParts
 }

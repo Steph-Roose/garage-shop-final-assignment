@@ -10,7 +10,7 @@ import java.util.List;
 public class ActionController {
     private final ActionService actionService;
 
-// controller
+// constructor
     public ActionController(ActionService actionService) {
         this.actionService = actionService;
     }
