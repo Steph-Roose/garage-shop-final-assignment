@@ -74,9 +74,8 @@ public class CarService {
             throw new RecordNotFoundException("Couldn't find car");
         }
     }
-    // add a log
 
-    // delete a log
+    // add a log
 
     public Car toCar(CarDto dto) {
         var car = new Car();

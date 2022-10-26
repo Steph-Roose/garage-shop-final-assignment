@@ -1,48 +1,43 @@
 package com.example.garageshopfinalassignment.controllers;
 
 import com.example.garageshopfinalassignment.dtos.UserDto;
-import com.example.garageshopfinalassignment.models.Role;
-import com.example.garageshopfinalassignment.models.User;
-import com.example.garageshopfinalassignment.repositories.RoleRepository;
-import com.example.garageshopfinalassignment.repositories.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.garageshopfinalassignment.services.UserService;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class UserController {
 
-    private final UserRepository userRepos;
-    private final RoleRepository roleRepos;
-    private final PasswordEncoder encoder;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepos, RoleRepository roleRepos, PasswordEncoder encoder) {
-        this.userRepos = userRepos;
-        this.roleRepos = roleRepos;
-        this.encoder = encoder;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
+
+    // endpoints
     @PostMapping("/users")
-    public String createUser(@RequestBody UserDto userDto) {
-        User newUser = new User();
-        newUser.setUsername(userDto.username);
-        newUser.setPassword(encoder.encode(userDto.password));
+    public UserDto createUser(@RequestBody UserDto dto) {
+        return userService.createUser(dto);
+    }
 
-        List<Role> userRoles = new ArrayList<>();
-        for (String rolename : userDto.roles) {
-            Optional<Role> or = roleRepos.findById(rolename);
+    @GetMapping("/users")
+    public List<UserDto> getAllUsers() {
+        return userService.getAllUsers();
+    }
 
-            userRoles.add(or.get());
-        }
+    @GetMapping("/users/{id}")
+    public UserDto getUser(@PathVariable("id") String username) {
+        return userService.getUserByUsername(username);
+    }
 
-            newUser.setRoles(userRoles);
+    @PutMapping("/users/{id}")
+    public UserDto updateUser(@PathVariable("id") String username, @RequestBody UserDto dto) {
+        return userService.updateUser(username, dto);
+    }
 
-            userRepos.save(newUser);
-
-            return "Created User: " + newUser.getUsername();
+    @DeleteMapping("/users/{id}")
+    public String deleteUser(@PathVariable("id") String username) {
+        return userService.deleteUser(username);
     }
 }

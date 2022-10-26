@@ -84,16 +84,14 @@ public class CustomerService {
             throw new RecordNotFoundException();
         }
     }
-    // add an invoice
 
-    // delete an invoice
+    // add an invoice
 
     public List<CustomerDto> customerListToDtoList(List<Customer> customers) {
         List<CustomerDto> dtoList = new ArrayList<>();
 
         for(Customer customer : customers) {
             CustomerDto dto = toCustomerDto(customer);
-
             dtoList.add(dto);
         }
         return dtoList;

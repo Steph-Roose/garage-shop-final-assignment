@@ -68,6 +68,7 @@ public class InvoiceService {
             throw new RecordNotFoundException("Couldn't find invoice");
         }
     }
+
     // add finished logs to invoice
 
     public List<InvoiceDto> invoiceListToInvoiceDtoList(List<Invoice> invoices) {
