@@ -8,7 +8,7 @@ import java.util.List;
 public class Action {
     @Id
     @GeneratedValue
-    Long id;
+    private Long id;
 
     private String actionName;
     private double actionCost;
@@ -21,8 +21,7 @@ public class Action {
     public Action() {
     }
 
-    public Action(Long id, String actionName, double actionCost) {
-        this.id = id;
+    public Action(String actionName, double actionCost) {
         this.actionName = actionName;
         this.actionCost = actionCost;
     }
@@ -41,6 +40,7 @@ public class Action {
     }
 
 // setters
+
     public void setId(Long id) {
         this.id = id;
     }

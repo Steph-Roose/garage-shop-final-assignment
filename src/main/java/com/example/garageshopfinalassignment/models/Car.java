@@ -8,32 +8,31 @@ import java.util.List;
 public class Car {
     @Id
     @GeneratedValue
-    Long id;
+    private Long id;
 
     private String brand;
     private String model;
     private String licencePlate;
 
-    @Lob
-    private byte[] carDocuments;
-
 // relationships
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="doc_id")
+    private File carDocuments;
+
     @OneToOne(mappedBy = "car")
     private Customer customer;
 
     @OneToMany(mappedBy = "car")
-    private List<Log> logbook;
+    private List<Log> logBook;
 
 // constructors
     public Car() {
     }
 
-    public Car(Long id, String brand, String model, String licencePlate, byte[] carDocuments) {
-        this.id = id;
+    public Car(String brand, String model, String licencePlate) {
         this.brand = brand;
         this.model = model;
         this.licencePlate = licencePlate;
-        this.carDocuments = carDocuments;
     }
 
 // getters
@@ -53,11 +52,20 @@ public class Car {
         return licencePlate;
     }
 
-    public byte[] getCarDocuments() {
+    public File getCarDocuments() {
         return carDocuments;
     }
 
-// setters
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public List<Log> getLogBook() {
+        return logBook;
+    }
+
+    // setters
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -74,7 +82,15 @@ public class Car {
         this.licencePlate = licencePlate;
     }
 
-    public void setCarDocuments(byte[] carDocuments) {
+    public void setCarDocuments(File carDocuments) {
         this.carDocuments = carDocuments;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void setLogBook(List<Log> logBook) {
+        this.logBook = logBook;
     }
 }

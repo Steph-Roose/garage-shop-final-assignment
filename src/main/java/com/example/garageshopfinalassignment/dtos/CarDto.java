@@ -1,6 +1,8 @@
 package com.example.garageshopfinalassignment.dtos;
 
-import javax.persistence.Lob;
+import com.example.garageshopfinalassignment.models.File;
+
+import java.util.List;
 
 public class CarDto {
     private Long id;
@@ -8,20 +10,19 @@ public class CarDto {
     private String brand;
     private String model;
     private String licencePlate;
-
-    @Lob
-    private byte[] carDocuments;
+    private File carDocuments;
+    private CustomerDto customerDto;
+    private List<LogDto> logBookDto;
 
 //constructors
     public CarDto() {
     }
 
-    public CarDto(Long id, String brand, String model, String licencePlate, byte[] carDocuments) {
+    public CarDto(Long id, String brand, String model, String licencePlate) {
         this.id = id;
         this.brand = brand;
         this.model = model;
         this.licencePlate = licencePlate;
-        this.carDocuments = carDocuments;
     }
 
 // getters
@@ -41,11 +42,19 @@ public class CarDto {
         return licencePlate;
     }
 
-    public byte[] getCarDocuments() {
+    public File getCarDocuments() {
         return carDocuments;
     }
 
-// setters
+    public CustomerDto getCustomerDto() {
+        return customerDto;
+    }
+
+    public List<LogDto> getLogBookDto() {
+        return logBookDto;
+    }
+
+    // setters
     public void setId(Long id) {
         this.id = id;
     }
@@ -62,7 +71,15 @@ public class CarDto {
         this.licencePlate = licencePlate;
     }
 
-    public void setCarDocuments(byte[] carDocuments) {
+    public void setCarDocuments(File carDocuments) {
         this.carDocuments = carDocuments;
+    }
+
+    public void setCustomerDto(CustomerDto customerDto) {
+        this.customerDto = customerDto;
+    }
+
+    public void setLogBookDto(List<LogDto> logBookDto) {
+        this.logBookDto = logBookDto;
     }
 }

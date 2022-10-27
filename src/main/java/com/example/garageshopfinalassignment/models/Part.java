@@ -8,7 +8,7 @@ import java.util.List;
 public class Part {
     @Id
     @GeneratedValue
-    Long id;
+    private Long id;
 
     private String partName;
     private double unitPrice;
@@ -21,8 +21,7 @@ public class Part {
     public Part() {
     }
 
-    public Part(Long id, String partName, double unitPrice) {
-        this.id = id;
+    public Part(String partName, double unitPrice) {
         this.partName = partName;
         this.unitPrice = unitPrice;
     }
@@ -40,6 +39,10 @@ public class Part {
         return unitPrice;
     }
 
+    public List<Log> getLogs() {
+        return logs;
+    }
+
 // setters
     public void setId(Long id) {
         this.id = id;
@@ -51,5 +54,9 @@ public class Part {
 
     public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
+    }
+
+    public void setLogs(List<Log> logs) {
+        this.logs = logs;
     }
 }

@@ -1,5 +1,7 @@
 package com.example.garageshopfinalassignment.dtos;
 
+import java.util.List;
+
 public class CustomerDto {
     private Long id;
     private String firstName;
@@ -9,6 +11,8 @@ public class CustomerDto {
     private String residence;
     private String phone;
     private String email;
+    private CarDto carDto;
+    private List<InvoiceDto> invoicesDto;
 
 // constructors
     public CustomerDto() {
@@ -25,7 +29,19 @@ public class CustomerDto {
         this.email = email;
     }
 
-// getters
+    public CustomerDto(Long id, String firstName, String lastName, String address, String postcode, String residence, String phone, String email, CarDto carDto) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.postcode = postcode;
+        this.residence = residence;
+        this.phone = phone;
+        this.email = email;
+        this.carDto = carDto;
+    }
+
+    // getters
     public Long getId() {
         return id;
     }
@@ -58,7 +74,15 @@ public class CustomerDto {
         return email;
     }
 
-// setters
+    public CarDto getCarDto() {
+        return carDto;
+    }
+
+    public List<InvoiceDto> getInvoicesDto() {
+        return invoicesDto;
+    }
+
+    // setters
     public void setId(Long id) {
         this.id = id;
     }
@@ -89,5 +113,13 @@ public class CustomerDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setCarDto(CarDto carDto) {
+        this.carDto = carDto;
+    }
+
+    public void setInvoicesDto(List<InvoiceDto> invoicesDto) {
+        this.invoicesDto = invoicesDto;
     }
 }

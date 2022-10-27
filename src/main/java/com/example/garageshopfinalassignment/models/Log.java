@@ -10,7 +10,7 @@ import java.util.List;
 public class Log {
     @Id
     @GeneratedValue
-    Long id;
+    private Long id;
     private LogStatus logStatus;
     private Date createdOn;
     private double totalPartsCost;
@@ -39,7 +39,7 @@ public class Log {
     private Action action;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "log_part",
+    @JoinTable(name = "logs_parts",
         joinColumns = @JoinColumn(name = "part_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "log_id", referencedColumnName = "id"))
     private List<Part> usedParts;
@@ -48,8 +48,7 @@ public class Log {
     public Log() {
     }
 
-    public Log(Long id, LogStatus logStatus, Date createdOn, double totalPartsCost, double totalCost) {
-        this.id = id;
+    public Log(LogStatus logStatus, Date createdOn, double totalPartsCost, double totalCost) {
         this.logStatus = logStatus;
         this.createdOn = createdOn;
         this.totalPartsCost = totalPartsCost;
@@ -77,6 +76,22 @@ public class Log {
         return totalCost;
     }
 
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public Action getAction() {
+        return action;
+    }
+
+    public List<Part> getUsedParts() {
+        return usedParts;
+    }
+
 // setters
     public void setId(Long id) {
         this.id = id;
@@ -96,5 +111,21 @@ public class Log {
 
     public void setTotalCost(double totalCost) {
         this.totalCost = totalCost;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
+    public void setUsedParts(List<Part> usedParts) {
+        this.usedParts = usedParts;
     }
 }

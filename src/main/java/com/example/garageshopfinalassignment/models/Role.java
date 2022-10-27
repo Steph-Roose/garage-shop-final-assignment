@@ -10,13 +10,16 @@ public class Role {
     @Id
     private String rolename;
 
+// relationships
     @ManyToMany(mappedBy = "roles")
     private Collection<User> users;
 
+// getters
     public String getRolename() {
         return rolename;
     }
 
+// setters
     public void setRolename(String rolename) {
         this.rolename = rolename;
     }
