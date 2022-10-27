@@ -8,19 +8,22 @@ public class InvoiceDto {
     private double costBeforeTax;
     private double costAfterTax;
     private boolean paid;
-    private CustomerDto customerDto;
+    private Long customerId;
+    private Long carId;
     private List<LogDto> finishedLogsDto;
 
 // constructors
     public InvoiceDto() {
     }
 
-    public InvoiceDto(Long id, double taxPercentage, double costBeforeTax, double costAfterTax, boolean paid) {
+    public InvoiceDto(Long id, double taxPercentage, double costBeforeTax, double costAfterTax, boolean paid, Long customerId, Long carId) {
         this.id = id;
         this.taxPercentage = taxPercentage;
         this.costBeforeTax = costBeforeTax;
         this.costAfterTax = costAfterTax;
         this.paid = paid;
+        this.customerId = customerId;
+        this.carId = carId;
     }
 
 // getters
@@ -44,8 +47,12 @@ public class InvoiceDto {
         return paid;
     }
 
-    public CustomerDto getCustomerDto() {
-        return customerDto;
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public Long getCarId() {
+        return carId;
     }
 
     public List<LogDto> getFinishedLogsDto() {
@@ -73,8 +80,12 @@ public class InvoiceDto {
         this.paid = paid;
     }
 
-    public void setCustomerDto(CustomerDto customerDto) {
-        this.customerDto = customerDto;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+
+    public void setCarId(Long carId) {
+        this.carId = carId;
     }
 
     public void setFinishedLogsDto(List<LogDto> finishedLogsDto) {

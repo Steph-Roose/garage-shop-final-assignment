@@ -23,6 +23,9 @@ public class Car {
     private Customer customer;
 
     @OneToMany(mappedBy = "car")
+    private List<Invoice> invoices;
+
+    @OneToMany(mappedBy = "car")
     private List<Log> logBook;
 
 // constructors
@@ -60,6 +63,10 @@ public class Car {
         return customer;
     }
 
+    public List<Invoice> getInvoices() {
+        return invoices;
+    }
+
     public List<Log> getLogBook() {
         return logBook;
     }
@@ -88,6 +95,10 @@ public class Car {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public void setInvoices(List<Invoice> invoices) {
+        this.invoices = invoices;
     }
 
     public void setLogBook(List<Log> logBook) {

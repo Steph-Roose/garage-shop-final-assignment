@@ -20,6 +20,10 @@ public class Invoice {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "car_id")
+    private Car car;
+
     @OneToMany(mappedBy = "invoice", fetch = FetchType.EAGER)
     private List<Log> finishedLogs;
 
@@ -27,11 +31,13 @@ public class Invoice {
     public Invoice() {
     }
 
-    public Invoice(double costBeforeTax, double costAfterTax, boolean paid) {
+    public Invoice(double costBeforeTax, double costAfterTax, boolean paid, Customer customer, Car car) {
         this.taxPercentage = 0.21;
         this.costBeforeTax = costBeforeTax;
         this.costAfterTax = costAfterTax;
         this.paid = paid;
+        this.customer = customer;
+        this.car = car;
     }
 
 // getters
@@ -57,6 +63,10 @@ public class Invoice {
 
     public Customer getCustomer() {
         return customer;
+    }
+
+    public Car getCar() {
+        return car;
     }
 
     public List<Log> getFinishedLogs() {
@@ -86,6 +96,10 @@ public class Invoice {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
     }
 
     public void setFinishedLogs(List<Log> finishedLogs) {

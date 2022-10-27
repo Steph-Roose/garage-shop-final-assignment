@@ -1,9 +1,14 @@
 package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.dtos.InvoiceDto;
+import com.example.garageshopfinalassignment.dtos.LogDto;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Invoice;
+import com.example.garageshopfinalassignment.models.Log;
+import com.example.garageshopfinalassignment.repositories.CarRepository;
+import com.example.garageshopfinalassignment.repositories.CustomerRepository;
 import com.example.garageshopfinalassignment.repositories.InvoiceRepository;
+import com.example.garageshopfinalassignment.repositories.LogRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,14 +17,27 @@ import java.util.List;
 @Service
 public class InvoiceService {
     private final InvoiceRepository invoiceRepos;
+    private final CustomerRepository customerRepos;
 
-    public InvoiceService(InvoiceRepository invoiceRepos) {
+    private final CarRepository carRepos;
+    private final LogRepository logRepos;
+    private final LogService logService;
+
+    public InvoiceService(InvoiceRepository invoiceRepos, CustomerRepository customerRepos, CarRepository carRepos, LogRepository logRepos, LogService logService) {
         this.invoiceRepos = invoiceRepos;
+        this.customerRepos = customerRepos;
+        this.carRepos = carRepos;
+        this.logRepos = logRepos;
+        this.logService = logService;
     }
 
 // methods
     public InvoiceDto createInvoice(InvoiceDto dto) {
         Invoice invoice = toInvoice(dto);
+
+        List<LogDto> finishedLogDtos = logService.getLogsByStatus(invoice.getCar().getId(), Log.LogStatus.FINISHED);
+        invoice.setFinishedLogs(logService.logDtoListToLogList(finishedLogDtos));
+
         invoiceRepos.save(invoice);
 
         return toInvoiceDto(invoice);
@@ -69,8 +87,6 @@ public class InvoiceService {
         }
     }
 
-    // add finished logs to invoice
-
     public List<InvoiceDto> invoiceListToInvoiceDtoList(List<Invoice> invoices) {
         List<InvoiceDto> invoiceDtoList = new ArrayList<>();
 
@@ -88,6 +104,22 @@ public class InvoiceService {
         invoice.setCostAfterTax(dto.getCostAfterTax());
         invoice.setPaid(dto.isPaid());
 
+        var optionalCustomer = customerRepos.findById(dto.getCustomerId());
+        if(optionalCustomer.isPresent()) {
+            var customer = optionalCustomer.get();
+            invoice.setCustomer(customer);
+        } else {
+            throw new RecordNotFoundException("Couldn't find matching customer");
+        }
+
+        var optionalCar = carRepos.findById(dto.getCarId());
+        if(optionalCar.isPresent()) {
+            var car = optionalCar.get();
+            invoice.setCar(car);
+        } else {
+            throw new RecordNotFoundException("Couldn't find matching car");
+        }
+
         return invoice;
     }
 
@@ -99,6 +131,8 @@ public class InvoiceService {
         dto.setCostBeforeTax(invoice.getCostBeforeTax());
         dto.setCostAfterTax(invoice.getCostAfterTax());
         dto.setPaid(invoice.isPaid());
+        dto.setCustomerId(invoice.getCustomer().getId());
+        dto.setCarId(invoice.getCar().getId());
 
         return dto;
     }

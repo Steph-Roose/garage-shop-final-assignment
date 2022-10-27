@@ -1,7 +1,6 @@
 package com.example.garageshopfinalassignment.controllers;
 
 import com.example.garageshopfinalassignment.dtos.CarDto;
-import com.example.garageshopfinalassignment.models.File;
 import com.example.garageshopfinalassignment.services.CarService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

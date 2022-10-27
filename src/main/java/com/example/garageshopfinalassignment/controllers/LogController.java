@@ -1,6 +1,7 @@
 package com.example.garageshopfinalassignment.controllers;
 
 import com.example.garageshopfinalassignment.dtos.LogDto;
+import com.example.garageshopfinalassignment.models.Log;
 import com.example.garageshopfinalassignment.services.LogService;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +22,8 @@ public class LogController {
     }
 
     @GetMapping("/logs")
-    public List<LogDto> getAllLogsByCarId(@RequestParam(value = "car_id") Long carId) {
-        return logService.getAllLogsByCarId(carId);
+    public List<LogDto> getLogsByCarId(@RequestParam(value = "car_id") Long carId) {
+        return logService.getLogsByCarId(carId);
     }
 
     @GetMapping("/logs/{id}")
