@@ -1,12 +1,14 @@
 package com.example.garageshopfinalassignment.dtos;
 
-public class UsedPartsDto {
-    private Long partId;
+import javax.validation.constraints.NotNull;
 
+public class UsedPartsDto {
+    @NotNull
+    private Long partId;
+    @NotNull
     private int quantity;
 
     // constructors
-
     public UsedPartsDto() {
     }
 
@@ -16,7 +18,6 @@ public class UsedPartsDto {
     }
 
     // getters
-
     public Long getPartId() {
         return partId;
     }
@@ -26,7 +27,6 @@ public class UsedPartsDto {
     }
 
     // setters
-
     public void setPartId(Long partId) {
         this.partId = partId;
     }

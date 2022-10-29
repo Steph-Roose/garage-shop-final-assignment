@@ -2,8 +2,13 @@ package com.example.garageshopfinalassignment.controllers;
 
 import com.example.garageshopfinalassignment.dtos.InvoiceDto;
 import com.example.garageshopfinalassignment.services.InvoiceService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -14,34 +19,44 @@ public class InvoiceController {
         this.invoiceService = invoiceService;
     }
 
-// endpoints
+    // endpoints
     @PostMapping("/invoices")
-    public InvoiceDto createInvoice(@RequestBody Long customerId) {
-        return invoiceService.createInvoice(customerId);
+    public ResponseEntity<Object> createInvoice(@Valid @RequestBody Long customerId, BindingResult br) {
+        if(br.hasErrors()) {
+            StringBuilder sb = new StringBuilder();
+            for (FieldError fe : br.getFieldErrors()) {
+                sb.append(fe.getField() + ": ");
+                sb.append(fe.getDefaultMessage());
+                sb.append("\n");
+            }
+            return ResponseEntity.badRequest().body(sb.toString());
+        }
+
+        return ResponseEntity.created(null).body(invoiceService.createInvoice(customerId));
     }
 
     @GetMapping("/invoices")
-    public List<InvoiceDto> getAllInvoicesByCustomerId(@RequestParam(value = "customer_id", required = true) Long customerId) {
-        return invoiceService.getAllInvoicesByCustomerId(customerId);
+    public ResponseEntity<Object> getAllInvoicesByCustomerId(@RequestParam(value = "customer_id", required = true) Long customerId) {
+        return ResponseEntity.ok().body(invoiceService.getAllInvoicesByCustomerId(customerId));
     }
 
     @GetMapping("/invoices/{id}")
-    public InvoiceDto getInvoiceById(@PathVariable("id") Long id) {
-        return invoiceService.getInvoiceById(id);
+    public ResponseEntity<Object> getInvoiceById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok().body(invoiceService.getInvoiceById(id));
     }
 
     @PutMapping("/invoices/{id}")
-    public InvoiceDto updateInvoice(@PathVariable("id") Long id, @RequestBody InvoiceDto dto) {
-        return invoiceService.updateInvoice(id, dto);
+    public ResponseEntity<Object> updateInvoice(@PathVariable("id") Long id, @RequestBody InvoiceDto dto) {
+        return ResponseEntity.ok().body(invoiceService.updateInvoice(id, dto));
     }
 
     @PatchMapping("/invoices/{id}")
-    public InvoiceDto payInvoice(@PathVariable("id") Long id) {
-        return invoiceService.payInvoice(id);
+    public ResponseEntity<Object> payInvoice(@PathVariable("id") Long id) {
+        return ResponseEntity.ok().body(invoiceService.payInvoice(id));
     }
 
     @DeleteMapping("/invoices/{id}")
-    public String deleteInvoice(@PathVariable("id") Long id) {
-        return invoiceService.deleteInvoice(id);
+    public ResponseEntity<Object> deleteInvoice(@PathVariable("id") Long id) {
+        return ResponseEntity.ok().body(invoiceService.deleteInvoice(id));
     }
 }

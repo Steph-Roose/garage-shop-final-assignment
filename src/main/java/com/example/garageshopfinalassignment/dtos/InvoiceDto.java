@@ -12,7 +12,7 @@ public class InvoiceDto {
     private CarDto carDto;
     private List<LogDto> finishedLogsDto;
 
-// constructors
+    // constructors
     public InvoiceDto() {
     }
 
@@ -26,7 +26,7 @@ public class InvoiceDto {
         this.carDto = carDto;
     }
 
-// getters
+    // getters
     public Long getId() {
         return id;
     }

@@ -1,14 +1,17 @@
 package com.example.garageshopfinalassignment.dtos;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class UserDto {
+    @Size(min = 5, max = 8)
     public String username;
-
+    @Min(value = 10, message = "Password is not long enough")
     public String password;
     public List<String> roles;
 
-// constructors
+    // constructors
     public UserDto() {
     }
 
@@ -18,7 +21,7 @@ public class UserDto {
         this.roles = roles;
     }
 
-// getters
+    // getters
     public String getUsername() {
         return username;
     }
@@ -31,7 +34,7 @@ public class UserDto {
         return roles;
     }
 
-// setters
+    // setters
     public void setUsername(String username) {
         this.username = username;
     }

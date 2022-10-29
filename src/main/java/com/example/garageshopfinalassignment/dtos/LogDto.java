@@ -17,7 +17,7 @@ public class LogDto {
 
     private List<PartDto> usedPartsDto;
 
-// constructors
+    // constructors
     public LogDto() {
     }
 
@@ -31,7 +31,7 @@ public class LogDto {
         this.actionDto = actionDto;
     }
 
-// getters
+    // getters
     public Long getId() {
         return id;
     }

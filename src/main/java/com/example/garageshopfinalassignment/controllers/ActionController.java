@@ -2,42 +2,56 @@ package com.example.garageshopfinalassignment.controllers;
 
 import com.example.garageshopfinalassignment.dtos.ActionDto;
 import com.example.garageshopfinalassignment.services.ActionService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 public class ActionController {
     private final ActionService actionService;
 
-// constructor
     public ActionController(ActionService actionService) {
         this.actionService = actionService;
     }
 
-// endpoints
+    // endpoints
     @PostMapping("/actions")
-    public ActionDto addAction(@RequestBody ActionDto dto) {
-        return actionService.addAction(dto);
+    public ResponseEntity<Object> addAction(@Valid @RequestBody ActionDto dto, BindingResult br) {
+        if(br.hasErrors()) {
+            StringBuilder sb = new StringBuilder();
+            for (FieldError fe : br.getFieldErrors()) {
+                sb.append(fe.getField() + ": ");
+                sb.append(fe.getDefaultMessage());
+                sb.append("\n");
+            }
+            return ResponseEntity.badRequest().body(sb.toString());
+        }
+
+        return ResponseEntity.created(null).body(actionService.addAction(dto));
     }
 
     @GetMapping("/actions")
-    public List<ActionDto> getAllActions() {
-        return actionService.getAllActions();
+    public ResponseEntity<Object> getAllActions() {
+        return ResponseEntity.ok().body(actionService.getAllActions());
     }
 
     @GetMapping("/actions/{id}")
-    public ActionDto getAction(@PathVariable("id") Long id) {
-        return actionService.getActionById(id);
+    public ResponseEntity<Object> getAction(@PathVariable("id") Long id) {
+        return ResponseEntity.ok().body(actionService.getActionById(id));
     }
 
     @PutMapping("/actions/{id}")
-    public ActionDto updateAction(@PathVariable("id") Long id, @RequestBody ActionDto dto) {
-        return actionService.updateAction(id, dto);
+    public ResponseEntity<Object> updateAction(@PathVariable("id") Long id, @RequestBody ActionDto dto) {
+        return ResponseEntity.ok().body(actionService.updateAction(id, dto));
     }
     // delete action
     @DeleteMapping("/actions/{id}")
-    public String deleteAction(@PathVariable("id") Long id) {
-        return actionService.deleteAction(id);
+    public ResponseEntity<Object> deleteAction(@PathVariable("id") Long id) {
+        return ResponseEntity.ok().body(actionService.deleteAction(id));
     }
 }

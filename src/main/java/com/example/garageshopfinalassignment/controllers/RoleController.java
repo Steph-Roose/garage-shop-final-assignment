@@ -15,6 +15,8 @@ public class RoleController {
     public RoleController(RoleRepository repos) {
         this.repos = repos;
     }
+
+    // endpoints
     @PostMapping("/roles")
     public String createRole(@RequestBody RoleDto role) {
         Role newRole = new Role();

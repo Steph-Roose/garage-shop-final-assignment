@@ -18,14 +18,14 @@ public class CarService {
     private final LogRepository logRepos;
     private final FileStorageService fileStorageService;
 
-// constructor
+    // constructor
     public CarService(com.example.garageshopfinalassignment.repositories.CarRepository carRepos, LogRepository logRepos, FileStorageService fileStorageService) {
         this.carRepos = carRepos;
         this.logRepos = logRepos;
         this.fileStorageService = fileStorageService;
     }
 
-// methods
+    // methods
     public CarDto addCar(CarDto dto) {
         Car car = toCar(dto);
         carRepos.save(car);

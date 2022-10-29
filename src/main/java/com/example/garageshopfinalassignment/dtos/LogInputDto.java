@@ -1,10 +1,16 @@
 package com.example.garageshopfinalassignment.dtos;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class LogInputDto {
+    @NotNull
     private Long carId;
+    @NotNull
     private Long actionId;
+    @NotNull
     private Date createdOn;
 
     // constructors

@@ -2,19 +2,22 @@ package com.example.garageshopfinalassignment.dtos;
 
 import com.example.garageshopfinalassignment.models.File;
 
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class CarDto {
     private Long id;
-
+    @Size(min = 2, max = 30, message = "Brand should have at least 2 characters")
     private String brand;
+    @Size(min = 2, max = 30, message = "Model should have at least 2 characters")
     private String model;
+    @Size(min = 8, max = 8, message = "Licence plate must be 8 characters")
     private String licencePlate;
     private File carDocuments;
     private CustomerDto customerDto;
     private List<LogDto> logBookDto;
 
-//constructors
+    //constructors
     public CarDto() {
     }
 
@@ -25,7 +28,7 @@ public class CarDto {
         this.licencePlate = licencePlate;
     }
 
-// getters
+    // getters
     public Long getId() {
         return id;
     }
