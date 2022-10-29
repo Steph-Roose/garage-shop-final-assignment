@@ -1,7 +1,6 @@
 package com.example.garageshopfinalassignment.models;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,11 +47,13 @@ public class Log {
     public Log() {
     }
 
-    public Log(LogStatus logStatus, Date createdOn, double totalPartsCost, double totalCost) {
+    public Log(LogStatus logStatus, Date createdOn, double totalPartsCost, double totalCost, Car car, Action action) {
         this.logStatus = logStatus;
         this.createdOn = createdOn;
         this.totalPartsCost = totalPartsCost;
         this.totalCost = totalCost;
+        this.car = car;
+        this.action = action;
     }
 
 // getters
@@ -116,6 +117,7 @@ public class Log {
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
     }
+
 
     public void setCar(Car car) {
         this.car = car;

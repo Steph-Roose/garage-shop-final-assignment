@@ -1,13 +1,17 @@
 package com.example.garageshopfinalassignment.dtos;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class PartDto {
     private Long id;
+    @NotBlank
     private String partName;
+    @NotNull
     private double unitPrice;
 
-// constructors
+    // constructors
     public PartDto() {
     }
 
@@ -17,7 +21,7 @@ public class PartDto {
         this.unitPrice = unitPrice;
     }
 
-// getters
+    // getters
     public Long getId() {
         return id;
     }
@@ -30,7 +34,7 @@ public class PartDto {
         return unitPrice;
     }
 
-// setters
+    // setters
     public void setId(Long id) {
         this.id = id;
     }

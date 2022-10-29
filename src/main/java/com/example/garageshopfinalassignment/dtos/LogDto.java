@@ -17,19 +17,21 @@ public class LogDto {
 
     private List<PartDto> usedPartsDto;
 
-// constructors
+    // constructors
     public LogDto() {
     }
 
-    public LogDto(Long id, Log.LogStatus logStatus, Date createdOn, double totalPartsCost, double totalCost) {
+    public LogDto(Long id, Log.LogStatus logStatus, Date createdOn, double totalPartsCost, double totalCost, CarDto carDto, ActionDto actionDto) {
         this.id = id;
         this.logStatus = logStatus;
         this.createdOn = createdOn;
         this.totalPartsCost = totalPartsCost;
         this.totalCost = totalCost;
+        this.carDto = carDto;
+        this.actionDto = actionDto;
     }
 
-// getters
+    // getters
     public Long getId() {
         return id;
     }

@@ -1,20 +1,30 @@
 package com.example.garageshopfinalassignment.dtos;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class CustomerDto {
     private Long id;
+    @Size(min = 2, max = 30, message = "First name should be between 2 and 30 characters")
     private String firstName;
+    @Size(min = 2, max = 30, message = "Last name should be between 2 and 30 characters")
     private String lastName;
+    @NotBlank
     private String address;
+    @Size(min = 6, max = 6, message = "Postcode should be 6 characters")
     private String postcode;
+    @NotBlank
     private String residence;
+    @Size(min = 10, max = 10, message = "Phone number should be 10 characters")
     private String phone;
+    @Email
     private String email;
     private CarDto carDto;
     private List<InvoiceDto> invoicesDto;
 
-// constructors
+    // constructors
     public CustomerDto() {
     }
 

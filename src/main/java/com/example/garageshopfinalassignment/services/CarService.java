@@ -1,27 +1,31 @@
 package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.dtos.CarDto;
+import com.example.garageshopfinalassignment.dtos.LogDto;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Car;
 import com.example.garageshopfinalassignment.models.File;
-import com.example.garageshopfinalassignment.repositories.CarRepository;
+import com.example.garageshopfinalassignment.repositories.LogRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class CarService {
-    private final CarRepository carRepos;
+    private final com.example.garageshopfinalassignment.repositories.CarRepository carRepos;
+    private final LogRepository logRepos;
     private final FileStorageService fileStorageService;
 
-// constructor
-    public CarService(CarRepository carRepos, FileStorageService fileStorageService) {
+    // constructor
+    public CarService(com.example.garageshopfinalassignment.repositories.CarRepository carRepos, LogRepository logRepos, FileStorageService fileStorageService) {
         this.carRepos = carRepos;
+        this.logRepos = logRepos;
         this.fileStorageService = fileStorageService;
     }
 
-// methods
+    // methods
     public CarDto addCar(CarDto dto) {
         Car car = toCar(dto);
         carRepos.save(car);
@@ -74,8 +78,6 @@ public class CarService {
             throw new RecordNotFoundException("Couldn't find car");
         }
     }
-
-    // add a log
 
     public Car toCar(CarDto dto) {
         var car = new Car();
