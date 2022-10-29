@@ -12,8 +12,8 @@ public class LogDto {
     private double totalPartsCost;
     private double totalCost;
     private InvoiceDto invoiceDto;
-    private Long carId;
-    private Long actionId;
+    private CarDto carDto;
+    private ActionDto actionDto;
 
     private List<PartDto> usedPartsDto;
 
@@ -21,14 +21,14 @@ public class LogDto {
     public LogDto() {
     }
 
-    public LogDto(Long id, Log.LogStatus logStatus, Date createdOn, double totalPartsCost, double totalCost, Long carId, Long actionId) {
+    public LogDto(Long id, Log.LogStatus logStatus, Date createdOn, double totalPartsCost, double totalCost, CarDto carDto, ActionDto actionDto) {
         this.id = id;
         this.logStatus = logStatus;
         this.createdOn = createdOn;
         this.totalPartsCost = totalPartsCost;
         this.totalCost = totalCost;
-        this.carId = carId;
-        this.actionId = actionId;
+        this.carDto = carDto;
+        this.actionDto = actionDto;
     }
 
 // getters
@@ -56,12 +56,12 @@ public class LogDto {
         return invoiceDto;
     }
 
-    public Long getCarId() {
-        return carId;
+    public CarDto getCarDto() {
+        return carDto;
     }
 
-    public Long getActionId() {
-        return actionId;
+    public ActionDto getActionDto() {
+        return actionDto;
     }
 
     public List<PartDto> getUsedPartsDto() {
@@ -93,12 +93,12 @@ public class LogDto {
         this.invoiceDto = invoiceDto;
     }
 
-    public void setCarId(Long carId) {
-        this.carId = carId;
+    public void setCarDto(CarDto carDto) {
+        this.carDto = carDto;
     }
 
-    public void setActionId(Long actionId) {
-        this.actionId = actionId;
+    public void setActionDto(ActionDto actionDto) {
+        this.actionDto = actionDto;
     }
 
     public void setUsedPartsDto(List<PartDto> usedPartsDto) {

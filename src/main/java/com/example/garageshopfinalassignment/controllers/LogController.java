@@ -1,7 +1,11 @@
 package com.example.garageshopfinalassignment.controllers;
 
 import com.example.garageshopfinalassignment.dtos.LogDto;
+import com.example.garageshopfinalassignment.dtos.LogInputDto;
+import com.example.garageshopfinalassignment.dtos.PartDto;
+import com.example.garageshopfinalassignment.dtos.UsedPartsDto;
 import com.example.garageshopfinalassignment.models.Log;
+import com.example.garageshopfinalassignment.models.Part;
 import com.example.garageshopfinalassignment.services.LogService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +21,7 @@ public class LogController {
 
 // endpoints
     @PostMapping("/logs")
-    public LogDto addLog(@RequestBody LogDto dto) {
+    public LogDto addLog(@RequestBody LogInputDto dto) {
         return logService.addLog(dto);
     }
 
@@ -36,10 +40,13 @@ public class LogController {
         return logService.updateLog(id, dto);
     }
 
+    @PatchMapping("/logs/{id}")
+    public List<PartDto> addUsedParts(@PathVariable("id") Long id, @RequestBody UsedPartsDto dto) {
+        return logService.addUsedParts(id, dto);
+    }
+
     @DeleteMapping("/logs/{id}")
     public String deleteLog(@PathVariable("id") Long id) {
         return logService.deleteLog(id);
     }
-
-    // addUsedParts
 }

@@ -10,7 +10,7 @@ public class Invoice {
     @GeneratedValue
     private Long id;
 
-    private double taxPercentage;
+    private double taxPercentage = 0.21;
     private double costBeforeTax;
     private double costAfterTax;
     private boolean paid;
@@ -32,7 +32,7 @@ public class Invoice {
     }
 
     public Invoice(double costBeforeTax, double costAfterTax, boolean paid, Customer customer, Car car) {
-        this.taxPercentage = 0.21;
+        this.taxPercentage = getTaxPercentage();
         this.costBeforeTax = costBeforeTax;
         this.costAfterTax = costAfterTax;
         this.paid = paid;

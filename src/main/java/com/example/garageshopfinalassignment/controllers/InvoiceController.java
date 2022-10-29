@@ -16,8 +16,8 @@ public class InvoiceController {
 
 // endpoints
     @PostMapping("/invoices")
-    public InvoiceDto createInvoice(@RequestBody InvoiceDto dto) {
-        return invoiceService.createInvoice(dto);
+    public InvoiceDto createInvoice(@RequestBody Long customerId) {
+        return invoiceService.createInvoice(customerId);
     }
 
     @GetMapping("/invoices")
@@ -33,6 +33,11 @@ public class InvoiceController {
     @PutMapping("/invoices/{id}")
     public InvoiceDto updateInvoice(@PathVariable("id") Long id, @RequestBody InvoiceDto dto) {
         return invoiceService.updateInvoice(id, dto);
+    }
+
+    @PatchMapping("/invoices/{id}")
+    public InvoiceDto payInvoice(@PathVariable("id") Long id) {
+        return invoiceService.payInvoice(id);
     }
 
     @DeleteMapping("/invoices/{id}")
