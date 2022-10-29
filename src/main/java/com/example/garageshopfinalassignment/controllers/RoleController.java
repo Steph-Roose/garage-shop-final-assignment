@@ -1,28 +1,38 @@
 package com.example.garageshopfinalassignment.controllers;
 
 import com.example.garageshopfinalassignment.dtos.RoleDto;
-import com.example.garageshopfinalassignment.models.Role;
-import com.example.garageshopfinalassignment.repositories.RoleRepository;
+import com.example.garageshopfinalassignment.services.RoleService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 public class RoleController {
 
-    private final RoleRepository repos;
+    private final RoleService roleService;
 
-    public RoleController(RoleRepository repos) {
-        this.repos = repos;
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
     }
 
     // endpoints
     @PostMapping("/roles")
-    public String createRole(@RequestBody RoleDto role) {
-        Role newRole = new Role();
-        newRole.setRolename(role.rolename);
-        repos.save(newRole);
+    public ResponseEntity<Object> createRole(@Valid @RequestBody RoleDto dto, BindingResult br) {
+        if(br.hasErrors()) {
+            StringBuilder sb = new StringBuilder();
+            for (FieldError fe : br.getFieldErrors()) {
+                sb.append(fe.getField() + ": ");
+                sb.append(fe.getDefaultMessage());
+                sb.append("\n");
+            }
+            return ResponseEntity.badRequest().body(sb.toString());
+        }
 
-        return "Done";
+        return ResponseEntity.created(null).body(roleService.createRole(dto));
     }
 }
