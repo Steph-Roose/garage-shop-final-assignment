@@ -2,14 +2,12 @@ package com.example.garageshopfinalassignment.controllers;
 
 import com.example.garageshopfinalassignment.dtos.ActionDto;
 import com.example.garageshopfinalassignment.services.ActionService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 public class ActionController {
@@ -49,7 +47,7 @@ public class ActionController {
     public ResponseEntity<Object> updateAction(@PathVariable("id") Long id, @RequestBody ActionDto dto) {
         return ResponseEntity.ok().body(actionService.updateAction(id, dto));
     }
-    // delete action
+
     @DeleteMapping("/actions/{id}")
     public ResponseEntity<Object> deleteAction(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(actionService.deleteAction(id));

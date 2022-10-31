@@ -17,18 +17,15 @@ import java.util.List;
 public class InvoiceService {
     private final InvoiceRepository invoiceRepos;
     private final CustomerRepository customerRepos;
-
     private final CarRepository carRepos;
-    private final LogRepository logRepos;
     private final LogService logService;
     private final CustomerService customerService;
     private final CarService carService;
 
-    public InvoiceService(InvoiceRepository invoiceRepos, CustomerRepository customerRepos, CarRepository carRepos, LogRepository logRepos, LogService logService, CustomerService customerService, CarService carService) {
+    public InvoiceService(InvoiceRepository invoiceRepos, CustomerRepository customerRepos, CarRepository carRepos, LogService logService, CustomerService customerService, CarService carService) {
         this.invoiceRepos = invoiceRepos;
         this.customerRepos = customerRepos;
         this.carRepos = carRepos;
-        this.logRepos = logRepos;
         this.logService = logService;
         this.customerService = customerService;
         this.carService = carService;

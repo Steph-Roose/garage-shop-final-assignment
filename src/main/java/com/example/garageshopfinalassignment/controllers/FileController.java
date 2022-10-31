@@ -41,7 +41,7 @@ public class FileController {
         File file = fileStorageService.getFileById(id);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\" + file.getFileName() + \"")
                 .body(file.getDocFile());
     }
 }

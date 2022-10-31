@@ -52,8 +52,7 @@ public class SecurityConfig  {
                 .antMatchers(HttpMethod.POST, "/users").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, "/roles").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
-
-                .antMatchers("/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/**").permitAll()
                 .and()
                 .addFilterBefore(new JwtRequestFilter(jwtService, userDetailsService()), UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable()
