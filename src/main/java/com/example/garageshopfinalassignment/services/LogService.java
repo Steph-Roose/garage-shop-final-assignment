@@ -44,13 +44,12 @@ public class LogService {
             var car = optionalCar.get();
             var action = optionalAction.get();
 
-            log.setCreatedOn(dto.getCreatedOn());
             log.setTotalPartsCost(0.0);
-            log.setTotalCost(0.0);
+            log.setTotalCost(action.getActionCost());
             log.setCar(car);
             log.setAction(action);
 
-            if(action.getId() == 1) {
+            if(action.getActionName().equals("Check-up"))  {
                 log.setLogStatus(Log.LogStatus.SCHEDULED);
             } else {
                 log.setLogStatus(Log.LogStatus.NEEDS_APPROVAL);
@@ -77,12 +76,12 @@ public class LogService {
         }
     }
 
-    public List<LogDto> getLogsByStatus(Long carId, Log.LogStatus status) {
+    public List<LogDto> getLogsByStatus(Long carId, String status) {
         List<LogDto> logDtoList = getLogsByCarId(carId);
         List<LogDto> newList = new ArrayList<>();
 
         for(LogDto dto : logDtoList) {
-            if(dto.getLogStatus() == status) {
+            if(dto.getLogStatus() == Log.LogStatus.valueOf(status)) {
                 newList.add(dto);
             }
         }
@@ -105,9 +104,12 @@ public class LogService {
     }
 
     public LogDto updateLog(Long id, LogDto dto) {
-        if(logRepos.findById(id).isPresent()) {
-            Log log = logRepos.findById(id).get();
+        var optionalLog = logRepos.findById(id);
+
+        if(optionalLog.isPresent()) {
+            Log log = optionalLog.get();
             Log log1 = toLog(dto);
+
             log1.setId(log.getId());
 
             logRepos.save(log1);
@@ -118,11 +120,17 @@ public class LogService {
         }
     }
 
-    public String deleteLog(Long id) {
-        if(logRepos.findById(id).isPresent()) {
-            logRepos.deleteById(id);
+    public LogDto updateStatus(Long id, String status) {
+        var optionalLog = logRepos.findById(id);
 
-            return "Log deleted";
+        if(optionalLog.isPresent()) {
+            Log log = optionalLog.get();
+
+            log.setLogStatus(Log.LogStatus.valueOf(status));
+
+            logRepos.save(log);
+
+            return toLogDto(log);
         } else {
             throw new RecordNotFoundException("Couldn't find log");
         }
@@ -137,15 +145,31 @@ public class LogService {
             var part = optionalPart.get();
 
             List<Part> usedParts = log.getUsedParts();
-            for(int i = 0; i <= dto.getQuantity(); i++) {
+            for(int i = 0; i < dto.getQuantity(); i++) {
                 usedParts.add(part);
             }
+            log.setUsedParts(usedParts);
+
+            calculateCost(log);
+
+            logRepos.save(log);
+
             return partService.partListToPartDtoList(usedParts);
 
         } else if(optionalLog.isEmpty()) {
             throw new RecordNotFoundException("Couldn't find log");
         } else {
             throw new RecordNotFoundException("Couldn't find part");
+        }
+    }
+
+    public String deleteLog(Long id) {
+        if(logRepos.findById(id).isPresent()) {
+            logRepos.deleteById(id);
+
+            return "Log deleted";
+        } else {
+            throw new RecordNotFoundException("Couldn't find log");
         }
     }
 
@@ -164,6 +188,7 @@ public class LogService {
         }
 
         log.setTotalCost(log.getTotalPartsCost() + actionCost);
+        logRepos.save(log);
 
         return log.getTotalCost();
     }
@@ -189,15 +214,15 @@ public class LogService {
         }
         return logDtoList;
     }
+
     public Log toLog(LogDto dto) {
         var log = new Log();
 
         log.setLogStatus(dto.getLogStatus());
-        log.setCreatedOn(dto.getCreatedOn());
         log.setTotalPartsCost(dto.getTotalPartsCost());
         log.setTotalCost(dto.getTotalCost());
 
-        var optionalCar = carRepos.findById(dto.getCarDto().getId());
+        var optionalCar = carRepos.findById(dto.getCarId());
         if(optionalCar.isPresent()) {
             var car = optionalCar.get();
             log.setCar(car);
@@ -221,11 +246,13 @@ public class LogService {
 
         dto.setId(log.getId());
         dto.setLogStatus(log.getLogStatus());
-        dto.setCreatedOn(log.getCreatedOn());
         dto.setTotalPartsCost(log.getTotalPartsCost());
         dto.setTotalCost(log.getTotalCost());
-        dto.setCarDto(carService.toCarDto(log.getCar()));
+        dto.setCarId(log.getCar().getId());
         dto.setActionDto(actionService.toActionDto(log.getAction()));
+        if(log.getUsedParts() != null) {
+            dto.setUsedPartsDto(partService.partListToPartDtoList(log.getUsedParts()));
+        }
 
         return dto;
     }

@@ -1,5 +1,7 @@
 package com.example.garageshopfinalassignment.models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -11,7 +13,6 @@ public class Log {
     @GeneratedValue
     private Long id;
     private LogStatus logStatus;
-    private Date createdOn;
     private double totalPartsCost;
     private double totalCost;
 
@@ -37,19 +38,18 @@ public class Log {
     @JoinColumn(name = "action_id")
     private Action action;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "logs_parts",
-        joinColumns = @JoinColumn(name = "part_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "log_id", referencedColumnName = "id"))
+        joinColumns = @JoinColumn(name = "log_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "part_id", referencedColumnName = "id"))
     private List<Part> usedParts;
 
 // constructors
     public Log() {
     }
 
-    public Log(LogStatus logStatus, Date createdOn, double totalPartsCost, double totalCost, Car car, Action action) {
+    public Log(LogStatus logStatus, double totalPartsCost, double totalCost, Car car, Action action) {
         this.logStatus = logStatus;
-        this.createdOn = createdOn;
         this.totalPartsCost = totalPartsCost;
         this.totalCost = totalCost;
         this.car = car;
@@ -63,10 +63,6 @@ public class Log {
 
     public LogStatus getLogStatus() {
         return logStatus;
-    }
-
-    public Date getCreatedOn() {
-        return createdOn;
     }
 
     public double getTotalPartsCost() {
@@ -100,10 +96,6 @@ public class Log {
 
     public void setLogStatus(LogStatus logStatus) {
         this.logStatus = logStatus;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
     }
 
     public void setTotalPartsCost(double totalPartsCost) {

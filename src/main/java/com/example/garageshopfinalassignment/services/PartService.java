@@ -1,13 +1,14 @@
 package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.dtos.PartDto;
+import com.example.garageshopfinalassignment.dtos.UsedPartsDto;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Part;
 import com.example.garageshopfinalassignment.repositories.PartRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PartService {

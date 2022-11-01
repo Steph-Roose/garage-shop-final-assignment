@@ -1,5 +1,7 @@
 package com.example.garageshopfinalassignment.models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class Car {
     private File carDocuments;
 
     @OneToOne(mappedBy = "car")
+    @JoinColumn(name="customer_id")
     private Customer customer;
 
     @OneToMany(mappedBy = "car")

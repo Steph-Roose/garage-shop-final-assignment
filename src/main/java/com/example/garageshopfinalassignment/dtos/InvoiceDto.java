@@ -4,26 +4,24 @@ import java.util.List;
 
 public class InvoiceDto {
     private Long id;
-    private double taxPercentage;
+    private String taxPercentage;
     private double costBeforeTax;
     private double costAfterTax;
     private boolean paid;
     private CustomerDto customerDto;
-    private CarDto carDto;
     private List<LogDto> finishedLogsDto;
 
     // constructors
     public InvoiceDto() {
     }
 
-    public InvoiceDto(Long id, double taxPercentage, double costBeforeTax, double costAfterTax, boolean paid, CustomerDto customerDto, CarDto carDto) {
+    public InvoiceDto(Long id, String taxPercentage, double costBeforeTax, double costAfterTax, boolean paid, CustomerDto customerDto) {
         this.id = id;
         this.taxPercentage = taxPercentage;
         this.costBeforeTax = costBeforeTax;
         this.costAfterTax = costAfterTax;
         this.paid = paid;
         this.customerDto = customerDto;
-        this.carDto = carDto;
     }
 
     // getters
@@ -31,7 +29,7 @@ public class InvoiceDto {
         return id;
     }
 
-    public double getTaxPercentage() {
+    public String getTaxPercentage() {
         return taxPercentage;
     }
 
@@ -51,10 +49,6 @@ public class InvoiceDto {
         return customerDto;
     }
 
-    public CarDto getCarDto() {
-        return carDto;
-    }
-
     public List<LogDto> getFinishedLogsDto() {
         return finishedLogsDto;
     }
@@ -64,7 +58,7 @@ public class InvoiceDto {
         this.id = id;
     }
 
-    public void setTaxPercentage(double taxPercentage) {
+    public void setTaxPercentage(String taxPercentage) {
         this.taxPercentage = taxPercentage;
     }
 
@@ -82,10 +76,6 @@ public class InvoiceDto {
 
     public void setCustomerDto(CustomerDto customerDto) {
         this.customerDto = customerDto;
-    }
-
-    public void setCarDto(CarDto carDto) {
-        this.carDto = carDto;
     }
 
     public void setFinishedLogsDto(List<LogDto> finishedLogsDto) {

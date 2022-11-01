@@ -1,5 +1,7 @@
 package com.example.garageshopfinalassignment.models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class Customer {
     private String email;
 
 // relationships
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="car_id")
     private Car car;
 

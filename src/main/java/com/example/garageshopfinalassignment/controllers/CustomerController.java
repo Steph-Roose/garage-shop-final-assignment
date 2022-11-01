@@ -55,10 +55,6 @@ public class CustomerController {
         return ResponseEntity.ok().body(customerService.deleteCustomer(id));
     }
 
-    @PatchMapping("/customers/{id}/car")
-    public ResponseEntity<Object> addCarToCustomer(@PathVariable("id") Long id, @RequestBody Long carId) {
-        return ResponseEntity.ok().body(customerService.addCarToCustomer(id, carId));
-    }
     // add an invoice
 
     // delete an invoice

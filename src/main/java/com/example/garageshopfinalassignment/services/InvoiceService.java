@@ -1,6 +1,7 @@
 package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.dtos.InvoiceDto;
+import com.example.garageshopfinalassignment.dtos.LogDto;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Invoice;
 import com.example.garageshopfinalassignment.models.Log;
@@ -45,30 +46,34 @@ public class InvoiceService {
 
             if(optionalCar.isPresent()){
                 var car = optionalCar.get();
-                double totalCost = 0.0;
+                double totalInvoiceCost = 0.0;
 
-                List<Log> finishedLogs = logService.logDtoListToLogList(logService.getLogsByStatus(car.getId(), Log.LogStatus.FINISHED));
+                List<Log> finishedLogs = logService.logDtoListToLogList(logService.getLogsByStatus(car.getId(), Log.LogStatus.FINISHED.toString()));
 
                 for(Log log : finishedLogs) {
-                    totalCost += logService.calculateCost(log);
+                    totalInvoiceCost += log.getTotalCost();
                 }
 
                 invoice.setCustomer(customer);
                 invoice.setCar(car);
                 invoice.setFinishedLogs(finishedLogs);
-                invoice.setCostBeforeTax(totalCost);
-                invoice.setCostAfterTax(invoice.getCostBeforeTax() * invoice.getTaxPercentage());
+                invoice.setCostBeforeTax(totalInvoiceCost);
+                invoice.setCostAfterTax(totalInvoiceCost * 1.21);
                 invoice.setPaid(false);
+
+                Invoice invoice1 = invoiceRepos.save(invoice);
+
+                for(Log log : finishedLogs) {
+                    log.setInvoice(invoice1);
+                }
+
+                return toInvoiceDto(invoice);
             } else {
                 throw new RecordNotFoundException("Couldn't find car");
             }
         } else {
             throw new RecordNotFoundException("Couldn't find customer");
         }
-
-        invoiceRepos.save(invoice);
-
-        return toInvoiceDto(invoice);
     }
 
     public List<InvoiceDto> getAllInvoicesByCustomerId(Long customerId) {
@@ -95,6 +100,7 @@ public class InvoiceService {
         if(invoiceRepos.findById(id).isPresent()) {
             Invoice invoice = invoiceRepos.findById(id).get();
             Invoice invoice1 = toInvoice(dto);
+
             invoice1.setId(invoice.getId());
 
             invoiceRepos.save(invoice1);
@@ -115,6 +121,7 @@ public class InvoiceService {
             }
 
             invoice.setPaid(true);
+            invoiceRepos.save(invoice);
 
             return toInvoiceDto(invoice);
         } else {
@@ -157,14 +164,6 @@ public class InvoiceService {
             throw new RecordNotFoundException("Couldn't find matching customer");
         }
 
-        var optionalCar = carRepos.findById(dto.getCarDto().getId());
-        if(optionalCar.isPresent()) {
-            var car = optionalCar.get();
-            invoice.setCar(car);
-        } else {
-            throw new RecordNotFoundException("Couldn't find matching car");
-        }
-
         return invoice;
     }
 
@@ -177,7 +176,7 @@ public class InvoiceService {
         dto.setCostAfterTax(invoice.getCostAfterTax());
         dto.setPaid(invoice.isPaid());
         dto.setCustomerDto(customerService.toCustomerDto(invoice.getCustomer()));
-        dto.setCarDto(carService.toCarDto(invoice.getCar()));
+        dto.setFinishedLogsDto(logService.logListToLogDtoList(invoice.getFinishedLogs()));
 
         return dto;
     }

@@ -49,7 +49,7 @@ public class ActionController {
     public ResponseEntity<Object> updateAction(@PathVariable("id") Long id, @RequestBody ActionDto dto) {
         return ResponseEntity.ok().body(actionService.updateAction(id, dto));
     }
-    // delete action
+
     @DeleteMapping("/actions/{id}")
     public ResponseEntity<Object> deleteAction(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(actionService.deleteAction(id));

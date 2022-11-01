@@ -21,17 +21,7 @@ public class InvoiceController {
 
     // endpoints
     @PostMapping("/invoices")
-    public ResponseEntity<Object> createInvoice(@Valid @RequestBody Long customerId, BindingResult br) {
-        if(br.hasErrors()) {
-            StringBuilder sb = new StringBuilder();
-            for (FieldError fe : br.getFieldErrors()) {
-                sb.append(fe.getField() + ": ");
-                sb.append(fe.getDefaultMessage());
-                sb.append("\n");
-            }
-            return ResponseEntity.badRequest().body(sb.toString());
-        }
-
+    public ResponseEntity<Object> createInvoice(@RequestParam(value = "customer_id", required = true) Long customerId) {
         return ResponseEntity.created(null).body(invoiceService.createInvoice(customerId));
     }
 

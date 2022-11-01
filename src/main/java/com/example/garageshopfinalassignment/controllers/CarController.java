@@ -1,6 +1,7 @@
 package com.example.garageshopfinalassignment.controllers;
 
 import com.example.garageshopfinalassignment.dtos.CarDto;
+import com.example.garageshopfinalassignment.dtos.CarInputDto;
 import com.example.garageshopfinalassignment.dtos.LogDto;
 import com.example.garageshopfinalassignment.services.CarService;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 public class CarController {
@@ -23,7 +25,7 @@ public class CarController {
 
     // endpoints
     @PostMapping("/cars")
-    public ResponseEntity<Object> addCar(@Valid @RequestBody CarDto dto, BindingResult br) {
+    public ResponseEntity<Object> addCar(@Valid @RequestBody CarInputDto dto, BindingResult br) {
         if(br.hasErrors()) {
             StringBuilder sb = new StringBuilder();
             for (FieldError fe : br.getFieldErrors()) {
@@ -33,13 +35,12 @@ public class CarController {
             }
             return ResponseEntity.badRequest().body(sb.toString());
         }
-
         return ResponseEntity.created(null).body(carService.addCar(dto));
     }
 
-    @GetMapping("/cars/{customerId}")
-    public ResponseEntity<Object> getCarByCustomerId(@PathVariable("customerId") Long customerId) {
-        return ResponseEntity.ok().body(carService.findCarByCustomerId(customerId));
+    @GetMapping("/cars/{id}")
+    public ResponseEntity<Object> getCarById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok().body(carService.getCarById(id));
     }
 
     @PatchMapping("/cars/{id}/documents")
