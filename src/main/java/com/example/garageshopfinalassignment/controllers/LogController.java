@@ -56,7 +56,12 @@ public class LogController {
         return ResponseEntity.ok().body(logService.updateLog(id, dto));
     }
 
-    @PatchMapping("/logs/{id}")
+    @PatchMapping("/logs/{id}/status")
+    public ResponseEntity<Object> updateLogStatus(@PathVariable("id") Long id, @RequestParam(value = "status") String status) {
+        return ResponseEntity.ok().body(logService.updateStatus(id, status));
+    }
+
+    @PatchMapping("/logs/{id}/usedparts")
     public ResponseEntity<Object> addUsedParts(@PathVariable("id") Long id, @RequestBody UsedPartsDto dto) {
         return ResponseEntity.ok().body(logService.addUsedParts(id, dto));
     }

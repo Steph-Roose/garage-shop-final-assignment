@@ -1,7 +1,15 @@
-insert into roles(rolename) values ('ADMIN'), ('OFFICE'), ('MECH');
+INSERT INTO roles(rolename) VALUES ('ADMIN'), ('OFFICE'), ('MECH');
 
-insert into customers(id, address, email, first_name, last_name, phone, postcode, residence) values (1, '2 Bradbourne Drive', 'max@verstappen.nl', 'Max', 'Verstappen', '0612345678', 'MK78AT', 'Milton Keynes');
+INSERT INTO users(username, password) VALUES ('Admin1', '$2a$10$lIDPLSUIs/23ng6AT0.XM.ohPSupfZU50pte8WUS/tPZvwAJSUrKu'),
+                                             ('Mech1', '$2a$10$lIDPLSUIs/23ng6AT0.XM.ohPSupfZU50pte8WUS/tPZvwAJSUrKu'),
+                                             ('Office1', '$2a$10$lIDPLSUIs/23ng6AT0.XM.ohPSupfZU50pte8WUS/tPZvwAJSUrKu'); /*password: VerySafePassword*/
 
-insert into actions(id, action_cost, action_name) values (1, 45.00, 'Check-up'), (2, 50.00, 'Change tires'), (3, 300.00, 'Change brakes'), (4, 125.00, 'Change oil'), (5, 100.00, 'Change battery');
+INSERT INTO users_roles(users_username, roles_rolename) VALUES ('Admin1', 'ADMIN'), ('Mech1', 'MECH'), ('Office1', 'OFFICE');
 
-insert into parts(id, part_name, unit_price) values (1, 'Summer tires', 75.00), (2, 'Winter tires', 75.00), (3, 'Brakes', 50.00), (4, 'Battery', 100.00), (5, 'Wheelnuts', 2.50), (6, 'Screws', 1.00);
+INSERT INTO customers(id, address, email, first_name, last_name, phone, postcode, residence) VALUES (1001, '2 Bradbourne Drive', 'max@verstappen.nl', 'Max', 'Verstappen', '0612345678', 'MK78AT', 'Milton Keynes'),
+                                                                                                    (1002, '7 Operations Centre', 'george@russell.nl', 'George', 'Russell', '0612345678', 'NN13BD', 'Brackley'),
+                                                                                                    (1003, '8 Dadford Road', 'valtteri@bottas.nl', 'Valtteri', 'Bottas', '0612345678', 'NN12TJ', 'Towcester');
+
+INSERT INTO actions(id, action_cost, action_name) VALUES (1004, 45.00, 'Check-up'), (1005, 50.00, 'Change tires'), (1006, 300.00, 'Change brakes'), (1007, 125.00, 'Change oil'), (1008, 100.00, 'Change battery');
+
+INSERT INTO parts(id, part_name, unit_price) VALUES (1009, 'Summer tires', 75.00), (1010, 'Winter tires', 75.00), (1011, 'Brakes', 50.00), (1012, 'Battery', 100.00), (1013, 'Wheelnuts', 2.50), (1014, 'Screws', 1.00);

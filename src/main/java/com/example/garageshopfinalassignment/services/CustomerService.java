@@ -14,11 +14,13 @@ import java.util.List;
 public class CustomerService {
     private final CustomerRepository customerRepos;
     private final CarRepository carRepos;
+    private final CarService carService;
 
 // constructor
-    public CustomerService(CustomerRepository customerRepos, CarRepository carRepos) {
+    public CustomerService(CustomerRepository customerRepos, CarRepository carRepos, CarService carService) {
         this.customerRepos = customerRepos;
         this.carRepos = carRepos;
+        this.carService = carService;
     }
 
 // methods
@@ -68,23 +70,6 @@ public class CustomerService {
         }
     }
 
-    public CustomerDto addCarToCustomer(Long id, Long carId) {
-        var optCustomer = customerRepos.findById(id);
-        var optCar = carRepos.findById(carId);
-
-        if(optCustomer.isPresent() && optCar.isPresent()) {
-            var customer = optCustomer.get();
-            var car = optCar.get();
-
-            customer.setCar(car);
-            customerRepos.save(customer);
-
-            return toCustomerDto(customer);
-        } else {
-            throw new RecordNotFoundException();
-        }
-    }
-
     // add an invoice
 
     public List<CustomerDto> customerListToDtoList(List<Customer> customers) {
@@ -122,6 +107,9 @@ public class CustomerService {
         dto.setResidence(customer.getResidence());
         dto.setPhone(customer.getPhone());
         dto.setEmail(customer.getEmail());
+        if(customer.getCar() != null) {
+            dto.setCarDto(carService.toCarDto(customer.getCar()));
+        }
 
         return dto;
     }

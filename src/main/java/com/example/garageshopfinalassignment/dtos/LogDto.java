@@ -8,11 +8,10 @@ import java.util.List;
 public class LogDto {
     private Long id;
     private Log.LogStatus logStatus;
-    private Date createdOn;
     private double totalPartsCost;
     private double totalCost;
     private InvoiceDto invoiceDto;
-    private CarDto carDto;
+    private Long carId;
     private ActionDto actionDto;
 
     private List<PartDto> usedPartsDto;
@@ -21,13 +20,12 @@ public class LogDto {
     public LogDto() {
     }
 
-    public LogDto(Long id, Log.LogStatus logStatus, Date createdOn, double totalPartsCost, double totalCost, CarDto carDto, ActionDto actionDto) {
+    public LogDto(Long id, Log.LogStatus logStatus, double totalPartsCost, double totalCost, Long carId, ActionDto actionDto) {
         this.id = id;
         this.logStatus = logStatus;
-        this.createdOn = createdOn;
         this.totalPartsCost = totalPartsCost;
         this.totalCost = totalCost;
-        this.carDto = carDto;
+        this.carId = carId;
         this.actionDto = actionDto;
     }
 
@@ -38,10 +36,6 @@ public class LogDto {
 
     public Log.LogStatus getLogStatus() {
         return logStatus;
-    }
-
-    public Date getCreatedOn() {
-        return createdOn;
     }
 
     public double getTotalPartsCost() {
@@ -56,8 +50,8 @@ public class LogDto {
         return invoiceDto;
     }
 
-    public CarDto getCarDto() {
-        return carDto;
+    public Long getCarId() {
+        return carId;
     }
 
     public ActionDto getActionDto() {
@@ -77,10 +71,6 @@ public class LogDto {
         this.logStatus = logStatus;
     }
 
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
-
     public void setTotalPartsCost(double totalPartsCost) {
         this.totalPartsCost = totalPartsCost;
     }
@@ -93,8 +83,8 @@ public class LogDto {
         this.invoiceDto = invoiceDto;
     }
 
-    public void setCarDto(CarDto carDto) {
-        this.carDto = carDto;
+    public void setCarId(Long carId) {
+        this.carId = carId;
     }
 
     public void setActionDto(ActionDto actionDto) {

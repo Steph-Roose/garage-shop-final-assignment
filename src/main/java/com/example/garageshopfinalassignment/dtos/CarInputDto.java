@@ -1,32 +1,28 @@
 package com.example.garageshopfinalassignment.dtos;
 
-import com.example.garageshopfinalassignment.models.File;
+import javax.validation.constraints.Size;
 
-import java.util.List;
-
-public class CarDto {
-    private Long id;
+public class CarInputDto {
+    @Size(min = 2, max = 30, message = "Brand should have at least 2 characters")
     private String brand;
+    @Size(min = 2, max = 30, message = "Model should have at least 2 characters")
     private String model;
+    @Size(min = 8, max = 8, message = "Licence plate must be 8 characters")
     private String licencePlate;
-    private File carDocuments;
+    private Long customerId;
 
     //constructors
-    public CarDto() {
+    public CarInputDto() {
     }
 
-    public CarDto(Long id, String brand, String model, String licencePlate) {
-        this.id = id;
+    public CarInputDto(String brand, String model, String licencePlate, Long customerId) {
         this.brand = brand;
         this.model = model;
         this.licencePlate = licencePlate;
+        this.customerId = customerId;
     }
 
     // getters
-    public Long getId() {
-        return id;
-    }
-
     public String getBrand() {
         return brand;
     }
@@ -39,15 +35,11 @@ public class CarDto {
         return licencePlate;
     }
 
-    public File getCarDocuments() {
-        return carDocuments;
+    public Long getCustomerId() {
+        return customerId;
     }
 
     // setters
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setBrand(String brand) {
         this.brand = brand;
     }
@@ -60,7 +52,7 @@ public class CarDto {
         this.licencePlate = licencePlate;
     }
 
-    public void setCarDocuments(File carDocuments) {
-        this.carDocuments = carDocuments;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 }

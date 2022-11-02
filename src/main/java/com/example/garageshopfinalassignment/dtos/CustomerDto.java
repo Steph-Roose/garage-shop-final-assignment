@@ -22,7 +22,6 @@ public class CustomerDto {
     @Email
     private String email;
     private CarDto carDto;
-    private List<InvoiceDto> invoicesDto;
 
     // constructors
     public CustomerDto() {
@@ -88,10 +87,6 @@ public class CustomerDto {
         return carDto;
     }
 
-    public List<InvoiceDto> getInvoicesDto() {
-        return invoicesDto;
-    }
-
     // setters
     public void setId(Long id) {
         this.id = id;
@@ -127,9 +122,5 @@ public class CustomerDto {
 
     public void setCarDto(CarDto carDto) {
         this.carDto = carDto;
-    }
-
-    public void setInvoicesDto(List<InvoiceDto> invoicesDto) {
-        this.invoicesDto = invoicesDto;
     }
 }

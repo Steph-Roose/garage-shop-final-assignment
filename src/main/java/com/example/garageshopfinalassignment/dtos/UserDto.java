@@ -7,7 +7,7 @@ import java.util.List;
 public class UserDto {
     @Size(min = 5, max = 8)
     public String username;
-    @Min(value = 10, message = "Password is not long enough")
+    @Size(min = 10)
     public String password;
     public List<String> roles;
 

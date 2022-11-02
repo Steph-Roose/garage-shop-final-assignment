@@ -1,5 +1,7 @@
 package com.example.garageshopfinalassignment.models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Collection;
 
