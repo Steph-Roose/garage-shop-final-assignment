@@ -44,7 +44,7 @@ public class CarController {
     }
 
     @PatchMapping("/cars/{id}/documents")
-    public ResponseEntity<Object> addCarDocuments(@PathVariable("id") Long id, @RequestBody MultipartFile file) throws IOException {
+    public ResponseEntity<Object> addCarDocuments(@PathVariable("id") Long id, @RequestParam("file") MultipartFile file) throws IOException {
         return ResponseEntity.ok().body(carService.addCarDocumentsToCar(id, file));
     }
 

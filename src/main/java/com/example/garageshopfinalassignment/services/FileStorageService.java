@@ -1,6 +1,7 @@
 package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.models.File;
+import com.example.garageshopfinalassignment.repositories.CarRepository;
 import com.example.garageshopfinalassignment.repositories.FileRepository;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,12 @@ import java.util.Objects;
 @Service
 public class FileStorageService {
     private final FileRepository docFileRepos;
+    private final CarRepository carRepos;
 
 // constructor
-    public FileStorageService(FileRepository docFileRepos) {
+    public FileStorageService(FileRepository docFileRepos, CarRepository carRepos) {
         this.docFileRepos = docFileRepos;
+        this.carRepos = carRepos;
     }
 
 // methods

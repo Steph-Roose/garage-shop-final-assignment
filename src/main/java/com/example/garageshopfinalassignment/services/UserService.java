@@ -49,20 +49,6 @@ public class UserService {
         }
     }
 
-    public UserDto updateUser(String username, UserDto dto) {
-        if(userRepos.findById(username).isPresent()) {
-            User user = userRepos.findById(username).get();
-            User user1 = toUser(dto);
-            user1.setUsername(user.getUsername());
-
-            userRepos.save(user1);
-
-            return toUserDto(user);
-        } else {
-            throw new UsernameNotFoundException(username);
-        }
-    }
-
     public String deleteUser(String username) {
         if(userRepos.findById(username).isPresent()) {
             userRepos.deleteById(username);

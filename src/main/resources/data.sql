@@ -1,5 +1,11 @@
 INSERT INTO roles(rolename) VALUES ('ADMIN'), ('OFFICE'), ('MECH');
 
+INSERT INTO users(username, password) VALUES ('Admin1', '$2a$10$lIDPLSUIs/23ng6AT0.XM.ohPSupfZU50pte8WUS/tPZvwAJSUrKu'),
+                                             ('Mech1', '$2a$10$lIDPLSUIs/23ng6AT0.XM.ohPSupfZU50pte8WUS/tPZvwAJSUrKu'),
+                                             ('Office1', '$2a$10$lIDPLSUIs/23ng6AT0.XM.ohPSupfZU50pte8WUS/tPZvwAJSUrKu'); /*password: VerySafePassword*/
+
+INSERT INTO users_roles(users_username, roles_rolename) VALUES ('Admin1', 'ADMIN'), ('Mech1', 'MECH'), ('Office1', 'OFFICE');
+
 INSERT INTO customers(id, address, email, first_name, last_name, phone, postcode, residence) VALUES (1001, '2 Bradbourne Drive', 'max@verstappen.nl', 'Max', 'Verstappen', '0612345678', 'MK78AT', 'Milton Keynes'),
                                                                                                     (1002, '7 Operations Centre', 'george@russell.nl', 'George', 'Russell', '0612345678', 'NN13BD', 'Brackley'),
                                                                                                     (1003, '8 Dadford Road', 'valtteri@bottas.nl', 'Valtteri', 'Bottas', '0612345678', 'NN12TJ', 'Towcester');
