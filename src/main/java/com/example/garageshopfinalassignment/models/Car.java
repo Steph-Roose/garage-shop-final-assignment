@@ -35,7 +35,8 @@ public class Car {
     public Car() {
     }
 
-    public Car(String brand, String model, String licencePlate) {
+    public Car(Long id, String brand, String model, String licencePlate) {
+        this.id = id;
         this.brand = brand;
         this.model = model;
         this.licencePlate = licencePlate;

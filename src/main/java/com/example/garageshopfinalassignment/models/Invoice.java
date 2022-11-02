@@ -33,7 +33,8 @@ public class Invoice {
     public Invoice() {
     }
 
-    public Invoice(double costBeforeTax, double costAfterTax, boolean paid, Customer customer, Car car) {
+    public Invoice(Long id, double costBeforeTax, double costAfterTax, boolean paid, Customer customer, Car car) {
+        this.id = id;
         this.taxPercentage = getTaxPercentage();
         this.costBeforeTax = costBeforeTax;
         this.costAfterTax = costAfterTax;
