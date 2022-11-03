@@ -1,42 +1,33 @@
 package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.dtos.PartDto;
-import com.example.garageshopfinalassignment.dtos.UsedPartsDto;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Part;
 import com.example.garageshopfinalassignment.repositories.PartRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class PartService {
     private final PartRepository partRepos;
 
-    // constructor
     public PartService(PartRepository partRepos) {
         this.partRepos = partRepos;
     }
 
-    // methods
     public PartDto addPart(PartDto dto) {
-        Part part = toPart(dto);
-        partRepos.save(part);
-
-        return toPartDto(part);
+        return toPartDto(partRepos.save(toPart(dto)));
     }
 
     public List<PartDto> getAllParts() {
-        List<Part> partList = partRepos.findAll();
-        return partListToPartDtoList(partList);
+        return partListToPartDtoList(partRepos.findAll());
     }
 
     public PartDto getPartById(Long id) {
         if(partRepos.findById(id).isPresent()) {
-            Part part = partRepos.findById(id).get();
-
-            return toPartDto(part);
+            return toPartDto(partRepos.findById(id).get());
         } else {
             throw new RecordNotFoundException("Couldn't find part");
         }
@@ -48,9 +39,7 @@ public class PartService {
             Part part1 = toPart(dto);
             part1.setId(part.getId());
 
-            partRepos.save(part1);
-
-            return toPartDto(part1);
+            return toPartDto(partRepos.save(part1));
         } else {
             throw new RecordNotFoundException("Couldn't find part");
         }
@@ -58,12 +47,22 @@ public class PartService {
 
     public String deletePart(Long id) {
         if(partRepos.findById(id).isPresent()) {
+            String partName = partRepos.findById(id).get().getPartName();
             partRepos.deleteById(id);
 
-            return "Part deleted";
+            return "Part deleted: " + partName;
         } else {
             throw new RecordNotFoundException("Couldn't find part");
         }
+    }
+
+    public List<Part> partDtoListToPartList(List<PartDto> dtos) {
+        List<Part> partList = new ArrayList<>();
+
+        for(PartDto dto : dtos) {
+            partList.add(toPart(dto));
+        }
+        return partList;
     }
 
     public List<PartDto> partListToPartDtoList(List<Part> parts) {
@@ -76,9 +75,13 @@ public class PartService {
         }
         return partDtoList;
     }
+
     public Part toPart(PartDto dto) {
         var part = new Part();
 
+        if(dto.getId() != null) {
+            part.setId(dto.getId());
+        }
         part.setPartName(dto.getPartName());
         part.setUnitPrice(dto.getUnitPrice());
 
