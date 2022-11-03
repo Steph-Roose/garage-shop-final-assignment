@@ -3,7 +3,6 @@ package com.example.garageshopfinalassignment.services;
 import com.example.garageshopfinalassignment.dtos.CustomerDto;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Customer;
-import com.example.garageshopfinalassignment.repositories.CarRepository;
 import com.example.garageshopfinalassignment.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,22 +12,16 @@ import java.util.List;
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepos;
-    private final CarRepository carRepos;
     private final CarService carService;
 
-// constructor
-    public CustomerService(CustomerRepository customerRepos, CarRepository carRepos, CarService carService) {
+    public CustomerService(CustomerRepository customerRepos, CarService carService) {
         this.customerRepos = customerRepos;
-        this.carRepos = carRepos;
         this.carService = carService;
     }
 
-// methods
     public CustomerDto addCustomer(CustomerDto dto) {
         Customer customer = toCustomer(dto);
-        customerRepos.save(customer);
-
-        return toCustomerDto(customer);
+        return toCustomerDto(customerRepos.save(customer));
     }
 
     public List<CustomerDto> getAllCustomers() {
@@ -38,9 +31,7 @@ public class CustomerService {
 
     public CustomerDto getCustomerById(Long id) {
         if(customerRepos.findById(id).isPresent()) {
-            Customer customer = customerRepos.findById(id).get();
-
-            return  toCustomerDto(customer);
+            return  toCustomerDto(customerRepos.findById(id).get());
         } else {
             throw new RecordNotFoundException("Couldn't find customer");
         }
@@ -50,27 +41,26 @@ public class CustomerService {
         if(customerRepos.findById(id).isPresent()) {
             Customer customer = customerRepos.findById(id).get();
             Customer customer1 = toCustomer(dto);
+
             customer1.setId(customer.getId());
 
-            customerRepos.save(customer1);
-
-            return toCustomerDto(customer1);
+            return toCustomerDto(customerRepos.save(customer1));
         } else {
             throw new RecordNotFoundException("Couldn't find customer");
         }
     }
 
     public String deleteCustomer(Long id) {
-        if(customerRepos.findById(id).isPresent()) {
+        var optionalCustomer = customerRepos.findById(id);
+        if(optionalCustomer.isPresent()) {
+            String name = optionalCustomer.get().getFirstName() + " " + optionalCustomer.get().getLastName();
             customerRepos.deleteById(id);
 
-            return "Customer deleted";
+            return "Customer deleted: " + name;
         } else {
             throw new RecordNotFoundException("Couldn't find customer");
         }
     }
-
-    // add an invoice
 
     public List<CustomerDto> customerListToDtoList(List<Customer> customers) {
         List<CustomerDto> dtoList = new ArrayList<>();

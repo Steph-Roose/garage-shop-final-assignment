@@ -8,29 +8,24 @@ import com.example.garageshopfinalassignment.models.Customer;
 import com.example.garageshopfinalassignment.models.File;
 import com.example.garageshopfinalassignment.repositories.CarRepository;
 import com.example.garageshopfinalassignment.repositories.CustomerRepository;
-import com.example.garageshopfinalassignment.repositories.LogRepository;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 @Service
 public class CarService {
     private final CarRepository carRepos;
     private final CustomerRepository customerRepos;
-    private final LogRepository logRepos;
     private final FileStorageService fileStorageService;
 
-    // constructor
-    public CarService(CarRepository carRepos, CustomerRepository customerRepos, LogRepository logRepos, FileStorageService fileStorageService) {
+    public CarService(CarRepository carRepos, CustomerRepository customerRepos, FileStorageService fileStorageService) {
         this.carRepos = carRepos;
         this.customerRepos = customerRepos;
-        this.logRepos = logRepos;
         this.fileStorageService = fileStorageService;
     }
 
-    // methods
     public CarDto addCar(CarInputDto dto) {
         var optionalCustomer = customerRepos.findById(dto.getCustomerId());
 
@@ -47,35 +42,28 @@ public class CarService {
             customer.setCar(carWithId);
             customerRepos.save(customer);
 
-            return toCarDto(car);
+            return toCarDto(carWithId);
         } else {
             throw new RecordNotFoundException("Couldn't find customer");
         }
     }
 
     public CarDto getCarById(Long id) {
-        var optionalCar = carRepos.findById(id);
-
-        if(optionalCar.isPresent()) {
-            Car car = optionalCar.get();
-
-            return toCarDto(car);
+        if(carRepos.findById(id).isPresent()) {
+            return toCarDto(carRepos.findById(id).get());
         } else {
             throw new RecordNotFoundException("Couldn't find car");
         }
     }
 
     public CarDto addCarDocumentsToCar(Long carId, MultipartFile file) throws IOException {
-
         if(carRepos.findById(carId).isPresent()) {
             File file1 = fileStorageService.storeFile(file);
-
             Car car = carRepos.findById(carId).get();
 
             car.setCarDocuments(file1);
-            carRepos.save(car);
 
-            return toCarDto(car);
+            return toCarDto(carRepos.save(car));
         } else {
             throw new RecordNotFoundException("Couldn't find car");
         }
@@ -84,22 +72,19 @@ public class CarService {
     public CarDto updateCar(Long id, CarDto dto) {
         if(carRepos.findById(id).isPresent()) {
             Car car = carRepos.findById(id).get();
-
             Car car1 = toCar(dto);
+
             car1.setId(car.getId());
 
-            carRepos.save(car1);
-
-            return toCarDto(car1);
+            return toCarDto(carRepos.save(car1));
         } else {
             throw new RecordNotFoundException("Couldn't find car");
         }
     }
 
     public String deleteCar(Long id) {
-        var optionalCar = carRepos.findById(id);
-        if(optionalCar.isPresent()) {
-            var car = optionalCar.get();
+        if(carRepos.findById(id).isPresent()) {
+            var car = carRepos.findById(id).get();
             var customer = car.getCustomer();
 
             customer.setCar(null);
@@ -116,6 +101,7 @@ public class CarService {
     public Car toCar(CarDto dto) {
         var car = new Car();
 
+        car.setId(dto.getId());
         car.setBrand(dto.getBrand());
         car.setModel(dto.getModel());
         car.setLicencePlate(dto.getLicencePlate());
