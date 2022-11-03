@@ -1,6 +1,7 @@
 package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.dtos.CarDto;
+import com.example.garageshopfinalassignment.dtos.CarInputDto;
 import com.example.garageshopfinalassignment.dtos.CustomerDto;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Car;
@@ -84,6 +85,7 @@ class CustomerServiceTest {
         assertEquals(customer3.getResidence(), customer.getResidence());
         assertEquals(customer3.getPhone(), customer.getPhone());
         assertEquals(customer3.getEmail(), customer.getEmail());
+        assertEquals(customer3.getCar(), customer.getCar());
     }
 
     @Test
@@ -110,7 +112,6 @@ class CustomerServiceTest {
 
         Customer customer = customerRepos.findById(1L).get();
         CustomerDto dto = customerService.getCustomerById(1L);
-        Car car = carService.toCar(dto.getCarDto());
 
         assertEquals(customer.getFirstName(), dto.getFirstName());
         assertEquals(customer.getLastName(), dto.getLastName());
@@ -119,7 +120,6 @@ class CustomerServiceTest {
         assertEquals(customer.getResidence(), dto.getResidence());
         assertEquals(customer.getPhone(), dto.getPhone());
         assertEquals(customer.getEmail(), dto.getEmail());
-        assertEquals(customer.getCar(), car);
     }
 
     @Test

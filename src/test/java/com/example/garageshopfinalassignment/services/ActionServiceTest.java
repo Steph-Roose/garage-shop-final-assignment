@@ -76,6 +76,9 @@ class ActionServiceTest {
         assertEquals(actions.get(0).getId(), dtos.get(0).getId());
         assertEquals(actions.get(0).getActionName(), dtos.get(0).getActionName());
         assertEquals(actions.get(0).getActionCost(), dtos.get(0).getActionCost());
+        assertEquals(actions.get(1).getId(), dtos.get(1).getId());
+        assertEquals(actions.get(1).getActionName(), dtos.get(1).getActionName());
+        assertEquals(actions.get(1).getActionCost(), dtos.get(1).getActionCost());
     }
 
     @Test

@@ -75,8 +75,9 @@ public class CarService {
             Car car1 = toCar(dto);
 
             car1.setId(car.getId());
+            carRepos.save(car1);
 
-            return toCarDto(carRepos.save(car1));
+            return toCarDto(car1);
         } else {
             throw new RecordNotFoundException("Couldn't find car");
         }

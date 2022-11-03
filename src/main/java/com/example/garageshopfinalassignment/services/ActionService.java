@@ -19,7 +19,10 @@ public class ActionService {
     }
 
     public ActionDto addAction(ActionDto dto) {
-        return toActionDto(actionRepos.save(toAction(dto)));
+        Action action = toAction(dto);
+        actionRepos.save(action);
+
+        return toActionDto(action);
     }
 
     public List<ActionDto> getAllActions() {
@@ -40,7 +43,9 @@ public class ActionService {
             Action action1 = toAction(dto);
             action1.setId(action.getId());
 
-            return toActionDto(actionRepos.save(action1));
+            actionRepos.save(action1);
+
+            return toActionDto(action1);
         } else {
             throw new RecordNotFoundException("Couldn't find action");
         }

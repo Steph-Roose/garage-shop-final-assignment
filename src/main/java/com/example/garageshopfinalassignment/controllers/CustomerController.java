@@ -2,14 +2,12 @@ package com.example.garageshopfinalassignment.controllers;
 
 import com.example.garageshopfinalassignment.dtos.CustomerDto;
 import com.example.garageshopfinalassignment.services.CustomerService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 public class CustomerController {
@@ -31,7 +29,6 @@ public class CustomerController {
             }
             return ResponseEntity.badRequest().body(sb.toString());
         }
-
         return ResponseEntity.created(null).body(customerService.addCustomer(dto));
     }
 
@@ -54,8 +51,4 @@ public class CustomerController {
     public ResponseEntity<Object> deleteCustomer(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(customerService.deleteCustomer(id));
     }
-
-    // add an invoice
-
-    // delete an invoice
 }

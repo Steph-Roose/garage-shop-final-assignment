@@ -57,8 +57,9 @@ public class LogService {
         } else {
             throw new RecordNotFoundException("Couldn't find action");
         }
+        logRepos.save(log);
 
-        return toLogDto(logRepos.save(log));
+        return toLogDto(log);
     }
 
     public List<LogDto> getLogsByCarId(Long carId) {
@@ -104,8 +105,9 @@ public class LogService {
             Log log1 = toLog(dto);
 
             log1.setId(log.getId());
+            logRepos.save(log1);
 
-            return toLogDto(logRepos.save(log1));
+            return toLogDto(log1);
         } else {
             throw new RecordNotFoundException("Couldn't find log");
         }
@@ -118,8 +120,9 @@ public class LogService {
             Log log = optionalLog.get();
 
             log.setLogStatus(Log.LogStatus.valueOf(status));
+            logRepos.save(log);
 
-            return toLogDto(logRepos.save(log));
+            return toLogDto(log);
         } else {
             throw new RecordNotFoundException("Couldn't find log");
         }
@@ -225,7 +228,13 @@ public class LogService {
         }
 
         if(!dto.getUsedPartsDto().isEmpty()) {
-            log.setUsedParts(partService.partDtoListToPartList(dto.getUsedPartsDto()));
+            List<Part> partList = new ArrayList<>();
+
+            for(PartDto partDto : dto.getUsedPartsDto()) {
+                partList.add(partService.toPart(partDto));
+            }
+
+            log.setUsedParts(partList);
         }
 
         return log;

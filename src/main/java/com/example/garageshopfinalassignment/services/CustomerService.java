@@ -21,7 +21,8 @@ public class CustomerService {
 
     public CustomerDto addCustomer(CustomerDto dto) {
         Customer customer = toCustomer(dto);
-        return toCustomerDto(customerRepos.save(customer));
+        customerRepos.save(customer);
+        return toCustomerDto(customer);
     }
 
     public List<CustomerDto> getAllCustomers() {
@@ -43,8 +44,9 @@ public class CustomerService {
             Customer customer1 = toCustomer(dto);
 
             customer1.setId(customer.getId());
+            customerRepos.save(customer1);
 
-            return toCustomerDto(customerRepos.save(customer1));
+            return toCustomerDto(customer1);
         } else {
             throw new RecordNotFoundException("Couldn't find customer");
         }
