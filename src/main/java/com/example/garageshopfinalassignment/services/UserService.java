@@ -7,6 +7,7 @@ import com.example.garageshopfinalassignment.models.Role;
 import com.example.garageshopfinalassignment.models.User;
 import com.example.garageshopfinalassignment.repositories.RoleRepository;
 import com.example.garageshopfinalassignment.repositories.UserRepository;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,24 +27,17 @@ public class UserService {
         this.encoder = encoder;
     }
 
-    // methods
     public UserDto createUser(UserDto dto) {
-        User user = toUser(dto);
-        userRepos.save(user);
-
-        return toUserDto(user);
+        return toUserDto(userRepos.save(toUser(dto)));
     }
 
     public List<UserDto> getAllUsers() {
-        List<User> userList = userRepos.findAll();
-        return userListToUserDtoList(userList);
+        return userListToUserDtoList(userRepos.findAll());
     }
 
     public UserDto getUserByUsername(String username) {
         if(userRepos.findById(username).isPresent()) {
-            User user = userRepos.findById(username).get();
-
-            return toUserDto(user);
+            return toUserDto(userRepos.findById(username).get());
         } else {
             throw new UsernameNotFoundException(username);
         }
@@ -53,7 +47,7 @@ public class UserService {
         if(userRepos.findById(username).isPresent()) {
             userRepos.deleteById(username);
 
-            return "User deleted";
+            return "Deleted user: " + username;
         } else {
             throw new UsernameNotFoundException(username);
         }

@@ -1,7 +1,5 @@
 package com.example.garageshopfinalassignment.models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,7 +10,7 @@ public class Invoice {
     @GeneratedValue
     private Long id;
 
-    private String taxPercentage = "21%";
+    static final private String TAX_PERCENTAGE = "21%";
     private double costBeforeTax;
     private double costAfterTax;
     private boolean paid;
@@ -33,9 +31,7 @@ public class Invoice {
     public Invoice() {
     }
 
-    public Invoice(Long id, double costBeforeTax, double costAfterTax, boolean paid, Customer customer, Car car) {
-        this.id = id;
-        this.taxPercentage = getTaxPercentage();
+    public Invoice(double costBeforeTax, double costAfterTax, boolean paid, Customer customer, Car car) {
         this.costBeforeTax = costBeforeTax;
         this.costAfterTax = costAfterTax;
         this.paid = paid;
@@ -48,8 +44,8 @@ public class Invoice {
         return id;
     }
 
-    public String getTaxPercentage() {
-        return taxPercentage;
+    public String getTAX_PERCENTAGE() {
+        return TAX_PERCENTAGE;
     }
 
     public double getCostBeforeTax() {
@@ -79,10 +75,6 @@ public class Invoice {
 // setters
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setTaxPercentage(String taxPercentage) {
-        this.taxPercentage = taxPercentage;
     }
 
     public void setCostBeforeTax(double costBeforeTax) {
