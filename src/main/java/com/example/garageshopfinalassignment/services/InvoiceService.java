@@ -1,7 +1,6 @@
 package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.dtos.InvoiceDto;
-import com.example.garageshopfinalassignment.dtos.LogDto;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Invoice;
 import com.example.garageshopfinalassignment.models.Log;
@@ -9,6 +8,7 @@ import com.example.garageshopfinalassignment.repositories.CarRepository;
 import com.example.garageshopfinalassignment.repositories.CustomerRepository;
 import com.example.garageshopfinalassignment.repositories.InvoiceRepository;
 import com.example.garageshopfinalassignment.repositories.LogRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,24 +18,20 @@ import java.util.List;
 public class InvoiceService {
     private final InvoiceRepository invoiceRepos;
     private final CustomerRepository customerRepos;
-
     private final CarRepository carRepos;
     private final LogRepository logRepos;
     private final LogService logService;
     private final CustomerService customerService;
-    private final CarService carService;
 
-    public InvoiceService(InvoiceRepository invoiceRepos, CustomerRepository customerRepos, CarRepository carRepos, LogRepository logRepos, LogService logService, CustomerService customerService, CarService carService) {
+    public InvoiceService(InvoiceRepository invoiceRepos, CustomerRepository customerRepos, CarRepository carRepos, LogRepository logRepos, LogService logService, CustomerService customerService) {
         this.invoiceRepos = invoiceRepos;
         this.customerRepos = customerRepos;
         this.carRepos = carRepos;
         this.logRepos = logRepos;
         this.logService = logService;
         this.customerService = customerService;
-        this.carService = carService;
     }
 
-// methods
     public InvoiceDto createInvoice(Long customerId) {
         Invoice invoice = new Invoice();
         var optionalCustomer = customerRepos.findById(customerId);
@@ -65,9 +61,10 @@ public class InvoiceService {
 
                 for(Log log : finishedLogs) {
                     log.setInvoice(invoice1);
+                    logRepos.save(log);
                 }
 
-                return toInvoiceDto(invoice);
+                return toInvoiceDto(invoice1);
             } else {
                 throw new RecordNotFoundException("Couldn't find car");
             }
@@ -88,9 +85,7 @@ public class InvoiceService {
 
     public InvoiceDto getInvoiceById(Long id) {
         if(invoiceRepos.findById(id).isPresent()) {
-            Invoice invoice = invoiceRepos.findById(id).get();
-
-            return toInvoiceDto(invoice);
+            return toInvoiceDto(invoiceRepos.findById(id).get());
         } else {
             throw new RecordNotFoundException("Couldn't find invoice");
         }
@@ -103,9 +98,7 @@ public class InvoiceService {
 
             invoice1.setId(invoice.getId());
 
-            invoiceRepos.save(invoice1);
-
-            return toInvoiceDto(invoice1);
+            return toInvoiceDto(invoiceRepos.save(invoice1));
         } else {
             throw new RecordNotFoundException("Couldn't find invoice");
         }
@@ -118,12 +111,12 @@ public class InvoiceService {
 
             for(Log log : finishedLogs) {
                 log.setLogStatus(Log.LogStatus.PAID);
+                logRepos.save(log);
             }
 
             invoice.setPaid(true);
-            invoiceRepos.save(invoice);
 
-            return toInvoiceDto(invoice);
+            return toInvoiceDto(invoiceRepos.save(invoice));
         } else {
             throw new RecordNotFoundException("Couldn't find invoice");
         }
@@ -152,16 +145,15 @@ public class InvoiceService {
     public Invoice toInvoice(InvoiceDto dto) {
         var invoice = new Invoice();
 
+        invoice.setId(dto.getId());
         invoice.setCostBeforeTax(dto.getCostBeforeTax());
         invoice.setCostAfterTax(dto.getCostAfterTax());
         invoice.setPaid(dto.isPaid());
-
-        var optionalCustomer = customerRepos.findById(dto.getCustomerDto().getId());
-        if(optionalCustomer.isPresent()) {
-            var customer = optionalCustomer.get();
-            invoice.setCustomer(customer);
-        } else {
-            throw new RecordNotFoundException("Couldn't find matching customer");
+        if(dto.getCustomerDto() != null) {
+            invoice.setCustomer(customerService.toCustomer(dto.getCustomerDto()));
+        }
+        if(!dto.getFinishedLogsDto().isEmpty()) {
+            invoice.setFinishedLogs(logService.logDtoListToLogList(dto.getFinishedLogsDto()));
         }
 
         return invoice;

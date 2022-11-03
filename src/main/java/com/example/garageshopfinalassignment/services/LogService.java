@@ -20,20 +20,17 @@ public class LogService {
     private final ActionRepository actionRepos;
     private final PartRepository partRepos;
     private final PartService partService;
-    private final CarService carService;
     private final ActionService actionService;
 
-    public LogService(LogRepository logRepos, CarRepository carRepos, ActionRepository actionRepos, PartRepository partRepos, PartService partService, CarService carService, ActionService actionService) {
+    public LogService(LogRepository logRepos, CarRepository carRepos, ActionRepository actionRepos, PartRepository partRepos, PartService partService, ActionService actionService) {
         this.logRepos = logRepos;
         this.carRepos = carRepos;
         this.actionRepos = actionRepos;
         this.partRepos = partRepos;
         this.partService = partService;
-        this.carService = carService;
         this.actionService = actionService;
     }
 
-// methods
     public LogDto addLog(LogInputDto dto) {
         Log log = new Log();
 
@@ -61,9 +58,7 @@ public class LogService {
             throw new RecordNotFoundException("Couldn't find action");
         }
 
-        logRepos.save(log);
-
-        return toLogDto(log);
+        return toLogDto(logRepos.save(log));
     }
 
     public List<LogDto> getLogsByCarId(Long carId) {
@@ -95,9 +90,7 @@ public class LogService {
 
     public LogDto getLogById(Long id) {
         if(logRepos.findById(id).isPresent()) {
-            Log log = logRepos.findById(id).get();
-
-            return toLogDto(log);
+            return toLogDto(logRepos.findById(id).get());
         } else {
             throw new RecordNotFoundException("Couldn't find log");
         }
@@ -112,9 +105,7 @@ public class LogService {
 
             log1.setId(log.getId());
 
-            logRepos.save(log1);
-
-            return toLogDto(log1);
+            return toLogDto(logRepos.save(log1));
         } else {
             throw new RecordNotFoundException("Couldn't find log");
         }
@@ -128,9 +119,7 @@ public class LogService {
 
             log.setLogStatus(Log.LogStatus.valueOf(status));
 
-            logRepos.save(log);
-
-            return toLogDto(log);
+            return toLogDto(logRepos.save(log));
         } else {
             throw new RecordNotFoundException("Couldn't find log");
         }
@@ -194,12 +183,10 @@ public class LogService {
     }
 
     public List<Log> logDtoListToLogList(List<LogDto> dtos) {
-        List<Log> logList= new ArrayList<>();
+        List<Log> logList = new ArrayList<>();
 
         for(LogDto dto : dtos) {
-            Log log = toLog(dto);
-
-            logList.add(log);
+            logList.add(toLog(dto));
         }
         return logList;
     }
@@ -218,24 +205,27 @@ public class LogService {
     public Log toLog(LogDto dto) {
         var log = new Log();
 
+        log.setId(dto.getId());
         log.setLogStatus(dto.getLogStatus());
         log.setTotalPartsCost(dto.getTotalPartsCost());
         log.setTotalCost(dto.getTotalCost());
 
         var optionalCar = carRepos.findById(dto.getCarId());
         if(optionalCar.isPresent()) {
-            var car = optionalCar.get();
-            log.setCar(car);
+            log.setCar(optionalCar.get());
         } else {
             throw new RecordNotFoundException("Couldn't find matching car");
         }
 
         var optionalAction = actionRepos.findById(dto.getActionDto().getId());
         if(optionalAction.isPresent()) {
-            var action = optionalAction.get();
-            log.setAction(action);
+            log.setAction(optionalAction.get());
         } else {
             throw new RecordNotFoundException("Couldn't find matching action");
+        }
+
+        if(!dto.getUsedPartsDto().isEmpty()) {
+            log.setUsedParts(partService.partDtoListToPartList(dto.getUsedPartsDto()));
         }
 
         return log;
