@@ -23,7 +23,8 @@ public class Part {
     public Part() {
     }
 
-    public Part(String partName, double unitPrice) {
+    public Part(Long id, String partName, double unitPrice) {
+        this.id = id;
         this.partName = partName;
         this.unitPrice = unitPrice;
     }
