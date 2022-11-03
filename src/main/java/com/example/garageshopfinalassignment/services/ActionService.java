@@ -79,6 +79,9 @@ public class ActionService {
     public Action toAction(ActionDto dto) {
         var action = new Action();
 
+        if(dto.getId() != null) {
+            action.setId(dto.getId());
+        }
         action.setActionName(dto.getActionName());
         action.setActionCost(dto.getActionCost());
 

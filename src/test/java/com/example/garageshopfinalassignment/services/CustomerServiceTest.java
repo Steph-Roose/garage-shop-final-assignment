@@ -1,15 +1,15 @@
 package com.example.garageshopfinalassignment.services;
 
+import com.example.garageshopfinalassignment.dtos.CarDto;
 import com.example.garageshopfinalassignment.dtos.CustomerDto;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Car;
 import com.example.garageshopfinalassignment.models.Customer;
+import com.example.garageshopfinalassignment.repositories.CarRepository;
 import com.example.garageshopfinalassignment.repositories.CustomerRepository;
 import com.example.garageshopfinalassignment.security.JwtRequestFilter;
 import com.example.garageshopfinalassignment.security.JwtService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -17,6 +17,8 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -27,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 @AutoConfigureMockMvc(addFilters = false)
 class CustomerServiceTest {
     @MockBean
@@ -37,6 +40,9 @@ class CustomerServiceTest {
 
     @Mock
     CustomerRepository customerRepos;
+
+    @Mock
+    CarRepository carRepos;
 
     @Mock
     CarService carService;
@@ -55,20 +61,17 @@ class CustomerServiceTest {
 
     @BeforeEach
     void setUp() {
-        customer1 = new Customer(1L, "Max", "Verstappen", "2 Bradbourne Drive", "MK78AT", "Milton Keynes", "0612345678", "max@verstappen.nl");
+        customer1 = new Customer(1L, "Max", "Verstappen", "2 Bradbourne Drive", "MK78AT", "Milton Keynes", "0612345678", "max@verstappen.nl", car1);
         customer2 = new Customer(2L, "Charles", "Leclerc", "Via Abetone Inferiore 4", "f41053", "Maranello", "0612345678", "charles@leclerc.nl");
         customer3 = new Customer(3L, "George", "Russell", "7 Operations Centre", "NN13NB", "Brackley", "0612345678", "george@russell.nl");
         car1 = new Car(1L, "Aston Martin", "DB11", "12-34-56");
         car2 = new Car(2L, "Ferrari", "250", "23-45-67");
     }
 
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
     void addCustomer() {
         when(customerRepos.save(customer3)).thenReturn(customer3);
+
         customerService.addCustomer(customerService.toCustomerDto(customer3));
         verify(customerRepos, times(1)).save(captor.capture());
         Customer customer = captor.getValue();
@@ -85,7 +88,7 @@ class CustomerServiceTest {
 
     @Test
     void getAllCustomers() {
-        when(customerRepos.findAll()).thenReturn(List.of(customer1, customer2));
+        when(customerRepos.findAll()).thenReturn(List.of(customer1, customer2, customer3));
 
         List<Customer> customers = customerRepos.findAll();
         List<CustomerDto> dtos = customerService.getAllCustomers();
@@ -102,12 +105,12 @@ class CustomerServiceTest {
 
     @Test
     void getCustomerById() {
-        Long id = 1L;
+        when(customerRepos.findById(1L)).thenReturn(Optional.of(customer1));
+        when(carRepos.findById(1L)).thenReturn(Optional.of(car1));
 
-        when(customerRepos.findById(id)).thenReturn(Optional.of(customer1));
-
-        Customer customer = customerRepos.findById(id).get();
-        CustomerDto dto = customerService.getCustomerById(id);
+        Customer customer = customerRepos.findById(1L).get();
+        CustomerDto dto = customerService.getCustomerById(1L);
+        Car car = carService.toCar(dto.getCarDto());
 
         assertEquals(customer.getFirstName(), dto.getFirstName());
         assertEquals(customer.getLastName(), dto.getLastName());
@@ -116,6 +119,7 @@ class CustomerServiceTest {
         assertEquals(customer.getResidence(), dto.getResidence());
         assertEquals(customer.getPhone(), dto.getPhone());
         assertEquals(customer.getEmail(), dto.getEmail());
+        assertEquals(customer.getCar(), car);
     }
 
     @Test
@@ -166,20 +170,5 @@ class CustomerServiceTest {
     @Test
     void deleteCustomerThrowsExceptionTest() {
         assertThrows(RecordNotFoundException.class, () -> customerService.deleteCustomer(null));
-    }
-
-    @Test
-    @Disabled
-    void customerListToDtoList() {
-    }
-
-    @Test
-    @Disabled
-    void toCustomer() {
-    }
-
-    @Test
-    @Disabled
-    void toCustomerDto() {
     }
 }

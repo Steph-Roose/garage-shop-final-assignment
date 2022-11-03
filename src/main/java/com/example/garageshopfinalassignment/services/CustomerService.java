@@ -85,6 +85,9 @@ public class CustomerService {
     public Customer toCustomer(CustomerDto dto) {
         var customer = new Customer();
 
+        if(dto.getId() != null) {
+            customer.setId(dto.getId());
+        }
         customer.setFirstName(dto.getFirstName());
         customer.setLastName(dto.getLastName());
         customer.setAddress(dto.getAddress());
