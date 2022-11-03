@@ -97,8 +97,9 @@ public class InvoiceService {
             Invoice invoice1 = toInvoice(dto);
 
             invoice1.setId(invoice.getId());
+            invoiceRepos.save(invoice1);
 
-            return toInvoiceDto(invoiceRepos.save(invoice1));
+            return toInvoiceDto(invoice1);
         } else {
             throw new RecordNotFoundException("Couldn't find invoice");
         }
