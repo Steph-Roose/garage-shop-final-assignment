@@ -2,18 +2,12 @@ package com.example.garageshopfinalassignment.controllers;
 
 import com.example.garageshopfinalassignment.dtos.ActionDto;
 import com.example.garageshopfinalassignment.services.ActionService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
-import java.util.List;
 
 @RestController
 public class ActionController {
@@ -35,8 +29,7 @@ public class ActionController {
             }
             return ResponseEntity.badRequest().body(sb.toString());
         }
-
-        return ResponseEntity.ok().body(actionService.addAction(dto));
+        return ResponseEntity.created(null).body(actionService.addAction(dto));
     }
 
     @GetMapping("/actions")

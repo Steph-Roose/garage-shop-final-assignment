@@ -38,7 +38,8 @@ public class CustomerDto {
         this.email = email;
     }
 
-    public CustomerDto(String firstName, String lastName, String address, String postcode, String residence, String phone, String email) {
+    public CustomerDto(Long id, String firstName, String lastName, String address, String postcode, String residence, String phone, String email, CarDto carDto) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -46,6 +47,7 @@ public class CustomerDto {
         this.residence = residence;
         this.phone = phone;
         this.email = email;
+        this.carDto = carDto;
     }
 
     // getters

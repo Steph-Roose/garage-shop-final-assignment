@@ -28,7 +28,10 @@ public class UserService {
     }
 
     public UserDto createUser(UserDto dto) {
-        return toUserDto(userRepos.save(toUser(dto)));
+        User user = toUser(dto);
+        userRepos.save(toUser(dto));
+
+        return toUserDto(user);
     }
 
     public List<UserDto> getAllUsers() {

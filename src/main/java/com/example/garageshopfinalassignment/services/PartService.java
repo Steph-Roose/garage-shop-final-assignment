@@ -18,7 +18,10 @@ public class PartService {
     }
 
     public PartDto addPart(PartDto dto) {
-        return toPartDto(partRepos.save(toPart(dto)));
+        Part part = toPart(dto);
+        partRepos.save(part);
+
+        return toPartDto(part);
     }
 
     public List<PartDto> getAllParts() {
@@ -38,8 +41,9 @@ public class PartService {
             Part part = partRepos.findById(id).get();
             Part part1 = toPart(dto);
             part1.setId(part.getId());
+            partRepos.save(part1);
 
-            return toPartDto(partRepos.save(part1));
+            return toPartDto(part1);
         } else {
             throw new RecordNotFoundException("Couldn't find part");
         }
@@ -54,15 +58,6 @@ public class PartService {
         } else {
             throw new RecordNotFoundException("Couldn't find part");
         }
-    }
-
-    public List<Part> partDtoListToPartList(List<PartDto> dtos) {
-        List<Part> partList = new ArrayList<>();
-
-        for(PartDto dto : dtos) {
-            partList.add(toPart(dto));
-        }
-        return partList;
     }
 
     public List<PartDto> partListToPartDtoList(List<Part> parts) {

@@ -59,7 +59,7 @@ class ActionControllerTest {
         action2 = new Action(2L, "Change tires", 50.00);
         dto1 = new ActionDto(1L, "Check-up", 45.00);
         dto2 = new ActionDto(2L, "Change tires", 50.00);
-        dto3 = new ActionDto(3L, "Change tires", 50.00);
+        dto3 = new ActionDto(2L, "Change tires", 75.00);
     }
 
     @Test
@@ -67,8 +67,8 @@ class ActionControllerTest {
         given(actionService.addAction(dto1)).willReturn(dto1);
 
         mockMvc.perform(post("/actions")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(dto2)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(dto1)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").value(1L))
                 .andExpect(jsonPath("actionName").value("Check-up"))
@@ -84,16 +84,16 @@ class ActionControllerTest {
                 .andExpect(jsonPath("$[0].id").value(1L))
                 .andExpect(jsonPath("$[0].actionName").value("Check-up"))
                 .andExpect(jsonPath("$[0].actionCost").value(45.00))
-                .andExpect(jsonPath("$[0].id").value(2L))
-                .andExpect(jsonPath("$[0].actionName").value("Change tires"))
-                .andExpect(jsonPath("$[0].actionCost").value(50.00));
+                .andExpect(jsonPath("$[1].id").value(2L))
+                .andExpect(jsonPath("$[1].actionName").value("Change tires"))
+                .andExpect(jsonPath("$[1].actionCost").value(50.00));
     }
 
     @Test
     void getAction() throws Exception {
         given(actionService.getActionById(1L)).willReturn(dto1);
 
-        mockMvc.perform(get("actions/1"))
+        mockMvc.perform(get("/actions/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(1L))
                 .andExpect(jsonPath("actionName").value("Check-up"))
@@ -102,11 +102,11 @@ class ActionControllerTest {
 
     @Test
     void updateAction() throws Exception {
-        given(actionService.updateAction(2L, dto3)).willReturn(dto2);
+        given(actionService.updateAction(2L, dto2)).willReturn(dto2);
 
         mockMvc.perform(put("/actions/2")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(dto3)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(dto1)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(2L))
                 .andExpect(jsonPath("actionName").value("Change tires"))
