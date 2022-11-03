@@ -163,7 +163,7 @@ public class InvoiceService {
         InvoiceDto dto = new InvoiceDto();
 
         dto.setId(invoice.getId());
-        dto.setTaxPercentage(invoice.getTaxPercentage());
+        dto.setTaxPercentage(invoice.getTAX_PERCENTAGE());
         dto.setCostBeforeTax(invoice.getCostBeforeTax());
         dto.setCostAfterTax(invoice.getCostAfterTax());
         dto.setPaid(invoice.isPaid());
