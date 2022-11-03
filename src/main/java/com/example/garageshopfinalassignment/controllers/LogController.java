@@ -2,20 +2,14 @@ package com.example.garageshopfinalassignment.controllers;
 
 import com.example.garageshopfinalassignment.dtos.LogDto;
 import com.example.garageshopfinalassignment.dtos.LogInputDto;
-import com.example.garageshopfinalassignment.dtos.PartDto;
 import com.example.garageshopfinalassignment.dtos.UsedPartsDto;
-import com.example.garageshopfinalassignment.models.Log;
-import com.example.garageshopfinalassignment.models.Part;
 import com.example.garageshopfinalassignment.services.LogService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Objects;
 
 @RestController
 public class LogController {
@@ -25,7 +19,6 @@ public class LogController {
         this.logService = logService;
     }
 
-    // endpoints
     @PostMapping("/logs")
     public ResponseEntity<Object> addLog(@Valid @RequestBody LogInputDto dto, BindingResult br) {
         if(br.hasErrors()) {

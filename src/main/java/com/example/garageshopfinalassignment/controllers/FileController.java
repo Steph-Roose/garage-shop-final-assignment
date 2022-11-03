@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileController {
     private final FileStorageService fileStorageService;
 
-// constructor
     public FileController(FileStorageService fileStorageService) {
         this.fileStorageService = fileStorageService;
     }

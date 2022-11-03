@@ -2,9 +2,7 @@ package com.example.garageshopfinalassignment.controllers;
 
 import com.example.garageshopfinalassignment.dtos.CarDto;
 import com.example.garageshopfinalassignment.dtos.CarInputDto;
-import com.example.garageshopfinalassignment.dtos.LogDto;
 import com.example.garageshopfinalassignment.services.CarService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -13,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Optional;
 
 @RestController
 public class CarController {
@@ -23,7 +20,6 @@ public class CarController {
         this.carService = carService;
     }
 
-    // endpoints
     @PostMapping("/cars")
     public ResponseEntity<Object> addCar(@Valid @RequestBody CarInputDto dto, BindingResult br) {
         if(br.hasErrors()) {
@@ -57,7 +53,4 @@ public class CarController {
     public ResponseEntity<Object> deleteCar(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(carService.deleteCar(id));
     }
-    // add a log
-
-    // delete a log
 }

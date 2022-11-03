@@ -20,7 +20,6 @@ public class RoleController {
         this.roleService = roleService;
     }
 
-    // endpoints
     @PostMapping("/roles")
     public ResponseEntity<Object> createRole(@Valid @RequestBody RoleDto dto, BindingResult br) {
         if(br.hasErrors()) {

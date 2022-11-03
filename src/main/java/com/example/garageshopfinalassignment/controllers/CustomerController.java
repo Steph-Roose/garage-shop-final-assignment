@@ -17,7 +17,6 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    // endpoints
     @PostMapping("/customers")
     public ResponseEntity<Object> addCustomer(@Valid @RequestBody CustomerDto dto, BindingResult br) {
         if(br.hasErrors()) {
