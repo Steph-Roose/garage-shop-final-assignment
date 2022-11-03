@@ -23,7 +23,8 @@ public class Action {
     public Action() {
     }
 
-    public Action(String actionName, double actionCost) {
+    public Action(Long id, String actionName, double actionCost) {
+        this.id = id;
         this.actionName = actionName;
         this.actionCost = actionCost;
     }

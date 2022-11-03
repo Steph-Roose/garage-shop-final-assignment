@@ -48,7 +48,8 @@ public class Log {
     public Log() {
     }
 
-    public Log(LogStatus logStatus, double totalPartsCost, double totalCost, Car car, Action action) {
+    public Log(Long id, LogStatus logStatus, double totalPartsCost, double totalCost, Car car, Action action) {
+        this.id = id;
         this.logStatus = logStatus;
         this.totalPartsCost = totalPartsCost;
         this.totalCost = totalCost;
