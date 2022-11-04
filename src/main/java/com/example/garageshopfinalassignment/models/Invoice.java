@@ -7,7 +7,7 @@ import java.util.List;
 @Table(name="invoices")
 public class Invoice {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     static final private String TAX_PERCENTAGE = "21%";

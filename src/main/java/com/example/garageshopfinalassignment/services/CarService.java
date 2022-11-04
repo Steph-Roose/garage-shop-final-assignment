@@ -58,7 +58,7 @@ public class CarService {
 
     public CarDto addCarDocumentsToCar(Long carId, MultipartFile file) throws IOException {
         if(carRepos.findById(carId).isPresent()) {
-            File file1 = fileStorageService.storeFile(file);
+            File file1 = fileStorageService.uploadFile(file);
             Car car = carRepos.findById(carId).get();
 
             car.setCarDocuments(file1);

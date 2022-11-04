@@ -1,35 +1,21 @@
 package com.example.garageshopfinalassignment.models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name="files")
 public class File {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private  Long id;
     private String fileName;
     private String fileType;
     @Lob
     private byte [] docFile;
 
-// relationships
     @OneToOne(mappedBy = "carDocuments")
     private Car car;
 
-// constructors
-    public File() {
-    }
-
-    public File(String fileName, String fileType, byte[] docFile) {
-        this.fileName = fileName;
-        this.fileType = fileType;
-        this.docFile = docFile;
-    }
-
-    // getters
     public Long getId() {
         return id;
     }
@@ -50,7 +36,6 @@ public class File {
         return car;
     }
 
-// setters
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }

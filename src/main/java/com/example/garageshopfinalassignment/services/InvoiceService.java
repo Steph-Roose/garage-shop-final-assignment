@@ -109,15 +109,21 @@ public class InvoiceService {
         if(invoiceRepos.findById(id).isPresent()) {
             Invoice invoice = invoiceRepos.findById(id).get();
             List<Log> finishedLogs = invoice.getFinishedLogs();
+            List<Log> paidLogs = new ArrayList<>();
 
             for(Log log : finishedLogs) {
                 log.setLogStatus(Log.LogStatus.PAID);
+                log.setInvoice(invoice);
                 logRepos.save(log);
+                paidLogs.add(log);
             }
 
+            invoice.setFinishedLogs(paidLogs);
             invoice.setPaid(true);
 
-            return toInvoiceDto(invoiceRepos.save(invoice));
+            invoiceRepos.save(invoice);
+
+            return toInvoiceDto(invoice);
         } else {
             throw new RecordNotFoundException("Couldn't find invoice");
         }
@@ -125,6 +131,15 @@ public class InvoiceService {
 
     public String deleteInvoice(Long id) {
         if(invoiceRepos.findById(id).isPresent()) {
+            Invoice invoice = invoiceRepos.findById(id).get();
+
+            for(Log log : invoice.getFinishedLogs()) {
+                if(log.getInvoice() != null) {
+                    log.setInvoice(null);
+                    logRepos.save(log);
+                }
+            }
+
             invoiceRepos.deleteById(id);
 
             return "Invoice deleted";

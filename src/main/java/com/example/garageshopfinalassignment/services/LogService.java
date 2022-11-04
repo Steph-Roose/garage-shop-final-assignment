@@ -252,6 +252,9 @@ public class LogService {
         if(log.getUsedParts() != null) {
             dto.setUsedPartsDto(partService.partListToPartDtoList(log.getUsedParts()));
         }
+        if(log.getInvoice() != null) {
+            dto.setInvoiceId(log.getInvoice().getId());
+        }
 
         return dto;
     }

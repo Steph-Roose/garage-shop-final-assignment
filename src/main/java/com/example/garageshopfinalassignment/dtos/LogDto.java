@@ -10,7 +10,7 @@ public class LogDto {
     private Log.LogStatus logStatus;
     private double totalPartsCost;
     private double totalCost;
-    private InvoiceDto invoiceDto;
+    private Long invoiceId;
     private Long carId;
     private ActionDto actionDto;
 
@@ -46,8 +46,8 @@ public class LogDto {
         return totalCost;
     }
 
-    public InvoiceDto getInvoiceDto() {
-        return invoiceDto;
+    public Long getInvoiceId() {
+        return invoiceId;
     }
 
     public Long getCarId() {
@@ -79,8 +79,8 @@ public class LogDto {
         this.totalCost = totalCost;
     }
 
-    public void setInvoiceDto(InvoiceDto invoiceDto) {
-        this.invoiceDto = invoiceDto;
+    public void setInvoiceId(Long invoiceId) {
+        this.invoiceId = invoiceId;
     }
 
     public void setCarId(Long carId) {

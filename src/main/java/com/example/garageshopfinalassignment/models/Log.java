@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name="logs")
 public class Log {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private LogStatus logStatus;
     private double totalPartsCost;
