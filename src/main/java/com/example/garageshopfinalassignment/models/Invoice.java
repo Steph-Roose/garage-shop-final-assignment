@@ -15,31 +15,23 @@ public class Invoice {
     private double costAfterTax;
     private boolean paid;
 
-// relationships
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "car_id")
-    private Car car;
-
     @OneToMany(mappedBy = "invoice", fetch = FetchType.EAGER)
     private List<Log> finishedLogs;
 
-// constructors
     public Invoice() {
     }
 
-    public Invoice(double costBeforeTax, double costAfterTax, boolean paid, Customer customer, Car car) {
+    public Invoice(double costBeforeTax, double costAfterTax, boolean paid, Customer customer) {
         this.costBeforeTax = costBeforeTax;
         this.costAfterTax = costAfterTax;
         this.paid = paid;
         this.customer = customer;
-        this.car = car;
     }
 
-// getters
     public Long getId() {
         return id;
     }
@@ -64,15 +56,10 @@ public class Invoice {
         return customer;
     }
 
-    public Car getCar() {
-        return car;
-    }
-
     public List<Log> getFinishedLogs() {
         return finishedLogs;
     }
 
-// setters
     public void setId(Long id) {
         this.id = id;
     }
@@ -91,10 +78,6 @@ public class Invoice {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
     }
 
     public void setFinishedLogs(List<Log> finishedLogs) {

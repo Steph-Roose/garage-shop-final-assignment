@@ -65,7 +65,7 @@ public class LogService {
     public List<LogDto> getLogsByCarId(Long carId) {
         List<Log> logList = logRepos.findAllLogsByCarId(carId);
 
-        if(logList != null) {
+        if(!logList.isEmpty()) {
             return logListToLogDtoList(logList);
         } else {
             throw new RecordNotFoundException("No logs found");

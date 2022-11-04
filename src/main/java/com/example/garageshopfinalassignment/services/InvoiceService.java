@@ -2,6 +2,8 @@ package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.dtos.InvoiceDto;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
+import com.example.garageshopfinalassignment.models.Car;
+import com.example.garageshopfinalassignment.models.Customer;
 import com.example.garageshopfinalassignment.models.Invoice;
 import com.example.garageshopfinalassignment.models.Log;
 import com.example.garageshopfinalassignment.repositories.CarRepository;
@@ -32,16 +34,56 @@ public class InvoiceService {
         this.customerService = customerService;
     }
 
+//    public InvoiceDto createInvoice(Long customerId) {
+//        Invoice invoice = new Invoice();
+//        var optionalCustomer = customerRepos.findById(customerId);
+//
+//        if(optionalCustomer.isPresent()) {
+//            var customer = optionalCustomer.get();
+//            var optionalCar = carRepos.findById(customer.getCar().getId());
+//
+//            if(optionalCar.isPresent()){
+//                var car = optionalCar.get();
+//                double totalInvoiceCost = 0.0;
+//
+//                List<Log> finishedLogs = logService.logDtoListToLogList(logService.getLogsByStatus(car.getId(), Log.LogStatus.FINISHED.toString()));
+//
+//                for(Log log : finishedLogs) {
+//                    totalInvoiceCost += log.getTotalCost();
+//                }
+//
+//                invoice.setCustomer(customer);
+//                invoice.setCar(car);
+//                invoice.setFinishedLogs(finishedLogs);
+//                invoice.setCostBeforeTax(totalInvoiceCost);
+//                invoice.setCostAfterTax(totalInvoiceCost * 1.21);
+//                invoice.setPaid(false);
+//
+//                Invoice invoice1 = invoiceRepos.save(invoice);
+//
+//                for(Log log : finishedLogs) {
+//                    log.setInvoice(invoice1);
+//                    logRepos.save(log);
+//                }
+//
+//                return toInvoiceDto(invoice1);
+//            } else {
+//                throw new RecordNotFoundException("Couldn't find car");
+//            }
+//        } else {
+//            throw new RecordNotFoundException("Couldn't find customer");
+//        }
+//    }
+
     public InvoiceDto createInvoice(Long customerId) {
         Invoice invoice = new Invoice();
         var optionalCustomer = customerRepos.findById(customerId);
 
         if(optionalCustomer.isPresent()) {
-            var customer = optionalCustomer.get();
-            var optionalCar = carRepos.findById(customer.getCar().getId());
+            Customer customer = optionalCustomer.get();
 
-            if(optionalCar.isPresent()){
-                var car = optionalCar.get();
+            if(customer.getCar() != null) {
+                Car car = customer.getCar();
                 double totalInvoiceCost = 0.0;
 
                 List<Log> finishedLogs = logService.logDtoListToLogList(logService.getLogsByStatus(car.getId(), Log.LogStatus.FINISHED.toString()));
@@ -51,7 +93,6 @@ public class InvoiceService {
                 }
 
                 invoice.setCustomer(customer);
-                invoice.setCar(car);
                 invoice.setFinishedLogs(finishedLogs);
                 invoice.setCostBeforeTax(totalInvoiceCost);
                 invoice.setCostAfterTax(totalInvoiceCost * 1.21);
@@ -66,7 +107,7 @@ public class InvoiceService {
 
                 return toInvoiceDto(invoice1);
             } else {
-                throw new RecordNotFoundException("Couldn't find car");
+                throw new RecordNotFoundException("No car registered to customer: " + customer.getFirstName() + " " + customer.getLastName());
             }
         } else {
             throw new RecordNotFoundException("Couldn't find customer");
@@ -113,7 +154,6 @@ public class InvoiceService {
 
             for(Log log : finishedLogs) {
                 log.setLogStatus(Log.LogStatus.PAID);
-                log.setInvoice(invoice);
                 logRepos.save(log);
                 paidLogs.add(log);
             }

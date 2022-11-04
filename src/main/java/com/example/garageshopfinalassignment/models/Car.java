@@ -1,7 +1,5 @@
 package com.example.garageshopfinalassignment.models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,12 +9,10 @@ public class Car {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-
     private String brand;
     private String model;
     private String licencePlate;
 
-// relationships
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="doc_id")
     private File carDocuments;
@@ -26,12 +22,8 @@ public class Car {
     private Customer customer;
 
     @OneToMany(mappedBy = "car")
-    private List<Invoice> invoices;
-
-    @OneToMany(mappedBy = "car")
     private List<Log> logBook;
 
-// constructors
     public Car() {
     }
 
@@ -42,7 +34,14 @@ public class Car {
         this.licencePlate = licencePlate;
     }
 
-// getters
+    public Car(Long id, String brand, String model, String licencePlate, File carDocuments) {
+        this.id = id;
+        this.brand = brand;
+        this.model = model;
+        this.licencePlate = licencePlate;
+        this.carDocuments = carDocuments;
+    }
+
     public Long getId() {
         return id;
     }
@@ -67,15 +66,9 @@ public class Car {
         return customer;
     }
 
-    public List<Invoice> getInvoices() {
-        return invoices;
-    }
-
     public List<Log> getLogBook() {
         return logBook;
     }
-
-    // setters
 
     public void setId(Long id) {
         this.id = id;
@@ -99,10 +92,6 @@ public class Car {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-    }
-
-    public void setInvoices(List<Invoice> invoices) {
-        this.invoices = invoices;
     }
 
     public void setLogBook(List<Log> logBook) {
