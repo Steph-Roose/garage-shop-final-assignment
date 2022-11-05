@@ -1,9 +1,6 @@
 package com.example.garageshopfinalassignment.dtos;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.List;
+import javax.validation.constraints.*;
 
 public class CustomerDto {
     private Long id;
@@ -23,7 +20,6 @@ public class CustomerDto {
     private String email;
     private CarDto carDto;
 
-    // constructors
     public CustomerDto() {
     }
 
@@ -50,7 +46,6 @@ public class CustomerDto {
         this.carDto = carDto;
     }
 
-    // getters
     public Long getId() {
         return id;
     }
@@ -87,7 +82,6 @@ public class CustomerDto {
         return carDto;
     }
 
-    // setters
     public void setId(Long id) {
         this.id = id;
     }

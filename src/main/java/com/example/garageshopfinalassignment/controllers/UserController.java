@@ -29,7 +29,6 @@ public class UserController {
             }
             return ResponseEntity.badRequest().body(sb.toString());
         }
-
         return ResponseEntity.created(null).body(userService.createUser(dto));
     }
 

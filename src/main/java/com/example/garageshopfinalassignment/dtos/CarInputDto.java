@@ -11,7 +11,6 @@ public class CarInputDto {
     private String licencePlate;
     private Long customerId;
 
-    //constructors
     public CarInputDto() {
     }
 
@@ -22,7 +21,6 @@ public class CarInputDto {
         this.customerId = customerId;
     }
 
-    // getters
     public String getBrand() {
         return brand;
     }
@@ -39,7 +37,6 @@ public class CarInputDto {
         return customerId;
     }
 
-    // setters
     public void setBrand(String brand) {
         this.brand = brand;
     }

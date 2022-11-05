@@ -1,6 +1,7 @@
 package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.dtos.UserDto;
+import com.example.garageshopfinalassignment.exceptions.BadRequestException;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.exceptions.UsernameNotFoundException;
 import com.example.garageshopfinalassignment.models.Role;
@@ -28,10 +29,13 @@ public class UserService {
     }
 
     public UserDto createUser(UserDto dto) {
-        User user = toUser(dto);
-        userRepos.save(toUser(dto));
-
-        return toUserDto(user);
+        if(userRepos.findById(dto.getUsername()).isEmpty()) {
+            User user = toUser(dto);
+            userRepos.save(toUser(dto));
+            return toUserDto(user);
+        } else {
+            throw new BadRequestException("Username already exists");
+        }
     }
 
     public List<UserDto> getAllUsers() {
@@ -90,7 +94,6 @@ public class UserService {
         UserDto dto = new UserDto();
 
         dto.setUsername(user.getUsername());
-        dto.setPassword(user.getPassword());
         List<String> userRoles = new ArrayList<>();
         for(Role role : user.getRoles()) {
             userRoles.add(role.getRolename());

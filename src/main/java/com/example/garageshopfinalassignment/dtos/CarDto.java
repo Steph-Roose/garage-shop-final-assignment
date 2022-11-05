@@ -2,8 +2,6 @@ package com.example.garageshopfinalassignment.dtos;
 
 import com.example.garageshopfinalassignment.models.File;
 
-import java.util.List;
-
 public class CarDto {
     private Long id;
     private String brand;
@@ -11,7 +9,6 @@ public class CarDto {
     private String licencePlate;
     private File carDocuments;
 
-    //constructors
     public CarDto() {
     }
 
@@ -22,7 +19,6 @@ public class CarDto {
         this.licencePlate = licencePlate;
     }
 
-    // getters
     public Long getId() {
         return id;
     }
@@ -43,7 +39,6 @@ public class CarDto {
         return carDocuments;
     }
 
-    // setters
     public void setId(Long id) {
         this.id = id;
     }

@@ -2,7 +2,6 @@ package com.example.garageshopfinalassignment.dtos;
 
 import com.example.garageshopfinalassignment.models.Log;
 
-import java.util.Date;
 import java.util.List;
 
 public class LogDto {
@@ -16,7 +15,6 @@ public class LogDto {
 
     private List<PartDto> usedPartsDto;
 
-    // constructors
     public LogDto() {
     }
 
@@ -29,7 +27,6 @@ public class LogDto {
         this.actionDto = actionDto;
     }
 
-    // getters
     public Long getId() {
         return id;
     }
@@ -62,7 +59,6 @@ public class LogDto {
         return usedPartsDto;
     }
 
-    // setters
     public void setId(Long id) {
         this.id = id;
     }

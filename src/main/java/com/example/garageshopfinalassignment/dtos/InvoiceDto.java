@@ -11,7 +11,6 @@ public class InvoiceDto {
     private CustomerDto customerDto;
     private List<LogDto> finishedLogsDto;
 
-    // constructors
     public InvoiceDto() {
     }
 
@@ -24,7 +23,6 @@ public class InvoiceDto {
         this.customerDto = customerDto;
     }
 
-    // getters
     public Long getId() {
         return id;
     }
@@ -53,7 +51,6 @@ public class InvoiceDto {
         return finishedLogsDto;
     }
 
-    // setters
     public void setId(Long id) {
         this.id = id;
     }

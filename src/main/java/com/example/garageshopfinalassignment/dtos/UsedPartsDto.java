@@ -9,7 +9,6 @@ public class UsedPartsDto {
     @NotNull
     private int quantity;
 
-    // constructors
     public UsedPartsDto() {
     }
 
@@ -19,7 +18,6 @@ public class UsedPartsDto {
         this.quantity = quantity;
     }
 
-    // getters
     public Long getPartId() {
         return partId;
     }
@@ -32,7 +30,6 @@ public class UsedPartsDto {
         return quantity;
     }
 
-    // setters
     public void setPartId(Long partId) {
         this.partId = partId;
     }
