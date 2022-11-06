@@ -1,6 +1,7 @@
 package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.dtos.UserDto;
+import com.example.garageshopfinalassignment.exceptions.BadRequestException;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.exceptions.UsernameNotFoundException;
 import com.example.garageshopfinalassignment.models.Role;
@@ -28,10 +29,13 @@ public class UserService {
     }
 
     public UserDto createUser(UserDto dto) {
-        User user = toUser(dto);
-        userRepos.save(toUser(dto));
-
-        return toUserDto(user);
+        if(userRepos.findById(dto.getUsername()).isEmpty()) {
+            User user = toUser(dto);
+            userRepos.save(toUser(dto));
+            return toUserDto(user);
+        } else {
+            throw new BadRequestException("Username already exists");
+        }
     }
 
     public List<UserDto> getAllUsers() {
@@ -56,7 +60,7 @@ public class UserService {
         }
     }
 
-    private List<UserDto> userListToUserDtoList(List<User> users) {
+    public List<UserDto> userListToUserDtoList(List<User> users) {
         List<UserDto> dtoList = new ArrayList<>();
 
         for(User user : users) {
@@ -66,7 +70,7 @@ public class UserService {
         return dtoList;
     }
 
-    private User toUser(UserDto dto) {
+    public User toUser(UserDto dto) {
         var user = new User();
 
         user.setUsername(dto.getUsername());
@@ -86,11 +90,10 @@ public class UserService {
         return user;
     }
 
-    private UserDto toUserDto(User user) {
+    public UserDto toUserDto(User user) {
         UserDto dto = new UserDto();
 
         dto.setUsername(user.getUsername());
-        dto.setPassword(user.getPassword());
         List<String> userRoles = new ArrayList<>();
         for(Role role : user.getRoles()) {
             userRoles.add(role.getRolename());

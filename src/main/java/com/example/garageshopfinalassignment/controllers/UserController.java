@@ -2,14 +2,12 @@ package com.example.garageshopfinalassignment.controllers;
 
 import com.example.garageshopfinalassignment.dtos.UserDto;
 import com.example.garageshopfinalassignment.services.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 public class UserController {
@@ -20,7 +18,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    // endpoints
     @PostMapping("/users")
     public ResponseEntity<Object> createUser(@Valid @RequestBody UserDto dto, BindingResult br) {
         if(br.hasErrors()) {
@@ -32,7 +29,6 @@ public class UserController {
             }
             return ResponseEntity.badRequest().body(sb.toString());
         }
-
         return ResponseEntity.created(null).body(userService.createUser(dto));
     }
 

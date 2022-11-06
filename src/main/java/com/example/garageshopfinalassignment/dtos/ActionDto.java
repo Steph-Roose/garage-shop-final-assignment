@@ -1,18 +1,16 @@
 package com.example.garageshopfinalassignment.dtos;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 public class ActionDto {
-    private Long id;
+    public Long id;
 
     @NotBlank
-    private String actionName;
+    public String actionName;
 
     @NotNull
-    private double actionCost;
+    public double actionCost;
 
-    // constructors
     public ActionDto() {
     }
 
@@ -22,7 +20,6 @@ public class ActionDto {
         this.actionCost = actionCost;
     }
 
-    // getters
     public Long getId() {
         return id;
     }
@@ -35,7 +32,6 @@ public class ActionDto {
         return actionCost;
     }
 
-    // setters
     public void setId(Long id) {
         this.id = id;
     }

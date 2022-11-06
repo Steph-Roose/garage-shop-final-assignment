@@ -1,7 +1,5 @@
 package com.example.garageshopfinalassignment.models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,29 +7,22 @@ import java.util.List;
 @Table(name="cars")
 public class Car {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-
     private String brand;
     private String model;
     private String licencePlate;
 
-// relationships
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="doc_id")
-    private File carDocuments;
-
     @OneToOne(mappedBy = "car")
-    @JoinColumn(name="customer_id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "car")
-    private List<Invoice> invoices;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "file_id")
+    private FileDocument carDocuments;
 
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private List<Log> logBook;
 
-// constructors
     public Car() {
     }
 
@@ -42,7 +33,6 @@ public class Car {
         this.licencePlate = licencePlate;
     }
 
-// getters
     public Long getId() {
         return id;
     }
@@ -59,23 +49,17 @@ public class Car {
         return licencePlate;
     }
 
-    public File getCarDocuments() {
-        return carDocuments;
-    }
-
     public Customer getCustomer() {
         return customer;
     }
 
-    public List<Invoice> getInvoices() {
-        return invoices;
+    public FileDocument getCarDocuments() {
+        return carDocuments;
     }
 
     public List<Log> getLogBook() {
         return logBook;
     }
-
-    // setters
 
     public void setId(Long id) {
         this.id = id;
@@ -93,16 +77,12 @@ public class Car {
         this.licencePlate = licencePlate;
     }
 
-    public void setCarDocuments(File carDocuments) {
-        this.carDocuments = carDocuments;
-    }
-
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
-    public void setInvoices(List<Invoice> invoices) {
-        this.invoices = invoices;
+    public void setCarDocuments(FileDocument carDocuments) {
+        this.carDocuments = carDocuments;
     }
 
     public void setLogBook(List<Log> logBook) {

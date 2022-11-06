@@ -3,15 +3,14 @@ package com.example.garageshopfinalassignment.dtos;
 import java.util.List;
 
 public class InvoiceDto {
-    private Long id;
-    private String taxPercentage;
-    private double costBeforeTax;
-    private double costAfterTax;
-    private boolean paid;
-    private CustomerDto customerDto;
-    private List<LogDto> finishedLogsDto;
+    public Long id;
+    public String taxPercentage;
+    public double costBeforeTax;
+    public double costAfterTax;
+    public boolean paid;
+    public CustomerDto customerDto;
+    public List<LogDto> finishedLogsDto;
 
-    // constructors
     public InvoiceDto() {
     }
 
@@ -24,7 +23,6 @@ public class InvoiceDto {
         this.customerDto = customerDto;
     }
 
-    // getters
     public Long getId() {
         return id;
     }
@@ -53,7 +51,6 @@ public class InvoiceDto {
         return finishedLogsDto;
     }
 
-    // setters
     public void setId(Long id) {
         this.id = id;
     }

@@ -5,9 +5,7 @@ import com.example.garageshopfinalassignment.services.RoleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -20,7 +18,6 @@ public class RoleController {
         this.roleService = roleService;
     }
 
-    // endpoints
     @PostMapping("/roles")
     public ResponseEntity<Object> createRole(@Valid @RequestBody RoleDto dto, BindingResult br) {
         if(br.hasErrors()) {
@@ -32,7 +29,6 @@ public class RoleController {
             }
             return ResponseEntity.badRequest().body(sb.toString());
         }
-
         return ResponseEntity.created(null).body(roleService.createRole(dto));
     }
 }

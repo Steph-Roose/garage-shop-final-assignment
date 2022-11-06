@@ -5,25 +5,19 @@ import com.example.garageshopfinalassignment.dtos.CarInputDto;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Car;
 import com.example.garageshopfinalassignment.models.Customer;
-import com.example.garageshopfinalassignment.models.File;
 import com.example.garageshopfinalassignment.repositories.CarRepository;
 import com.example.garageshopfinalassignment.repositories.CustomerRepository;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @Service
 public class CarService {
     private final CarRepository carRepos;
     private final CustomerRepository customerRepos;
-    private final FileStorageService fileStorageService;
 
-    public CarService(CarRepository carRepos, CustomerRepository customerRepos, FileStorageService fileStorageService) {
+    public CarService(CarRepository carRepos, CustomerRepository customerRepos) {
         this.carRepos = carRepos;
         this.customerRepos = customerRepos;
-        this.fileStorageService = fileStorageService;
     }
 
     public CarDto addCar(CarInputDto dto) {
@@ -51,19 +45,6 @@ public class CarService {
     public CarDto getCarById(Long id) {
         if(carRepos.findById(id).isPresent()) {
             return toCarDto(carRepos.findById(id).get());
-        } else {
-            throw new RecordNotFoundException("Couldn't find car");
-        }
-    }
-
-    public CarDto addCarDocumentsToCar(Long carId, MultipartFile file) throws IOException {
-        if(carRepos.findById(carId).isPresent()) {
-            File file1 = fileStorageService.storeFile(file);
-            Car car = carRepos.findById(carId).get();
-
-            car.setCarDocuments(file1);
-
-            return toCarDto(carRepos.save(car));
         } else {
             throw new RecordNotFoundException("Couldn't find car");
         }
@@ -118,7 +99,7 @@ public class CarService {
         dto.setModel(car.getModel());
         dto.setLicencePlate(car.getLicencePlate());
         if(car.getCarDocuments() != null) {
-            dto.setCarDocuments(car.getCarDocuments());
+            dto.setCarDocumentsFileName(car.getCarDocuments().getFileName());
         }
 
         return dto;

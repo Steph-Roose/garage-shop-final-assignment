@@ -2,21 +2,19 @@ package com.example.garageshopfinalassignment.dtos;
 
 import com.example.garageshopfinalassignment.models.Log;
 
-import java.util.Date;
 import java.util.List;
 
 public class LogDto {
-    private Long id;
-    private Log.LogStatus logStatus;
-    private double totalPartsCost;
-    private double totalCost;
-    private InvoiceDto invoiceDto;
-    private Long carId;
-    private ActionDto actionDto;
+    public Long id;
+    public Log.LogStatus logStatus;
+    public double totalPartsCost;
+    public double totalCost;
+    public Long invoiceId;
+    public Long carId;
+    public ActionDto actionDto;
 
     private List<PartDto> usedPartsDto;
 
-    // constructors
     public LogDto() {
     }
 
@@ -29,7 +27,6 @@ public class LogDto {
         this.actionDto = actionDto;
     }
 
-    // getters
     public Long getId() {
         return id;
     }
@@ -46,8 +43,8 @@ public class LogDto {
         return totalCost;
     }
 
-    public InvoiceDto getInvoiceDto() {
-        return invoiceDto;
+    public Long getInvoiceId() {
+        return invoiceId;
     }
 
     public Long getCarId() {
@@ -62,7 +59,6 @@ public class LogDto {
         return usedPartsDto;
     }
 
-    // setters
     public void setId(Long id) {
         this.id = id;
     }
@@ -79,8 +75,8 @@ public class LogDto {
         this.totalCost = totalCost;
     }
 
-    public void setInvoiceDto(InvoiceDto invoiceDto) {
-        this.invoiceDto = invoiceDto;
+    public void setInvoiceId(Long invoiceId) {
+        this.invoiceId = invoiceId;
     }
 
     public void setCarId(Long carId) {
