@@ -16,11 +16,11 @@ public class RoleService {
 
     public RoleDto createRole(RoleDto dto) {
         Role role = new Role();
-        role.setRolename(dto.getRolename());
+        role.setRolename(dto.getRoleName());
         roleRepos.save(role);
 
         RoleDto newDto = new RoleDto();
-        newDto.setRolename(role.getRolename());
+        newDto.setRoleName(role.getRolename());
 
         return newDto;
     }

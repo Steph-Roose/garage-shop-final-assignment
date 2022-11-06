@@ -2,9 +2,10 @@ package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.dtos.InvoiceDto;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
+import com.example.garageshopfinalassignment.models.Car;
+import com.example.garageshopfinalassignment.models.Customer;
 import com.example.garageshopfinalassignment.models.Invoice;
 import com.example.garageshopfinalassignment.models.Log;
-import com.example.garageshopfinalassignment.repositories.CarRepository;
 import com.example.garageshopfinalassignment.repositories.CustomerRepository;
 import com.example.garageshopfinalassignment.repositories.InvoiceRepository;
 import com.example.garageshopfinalassignment.repositories.LogRepository;
@@ -18,15 +19,13 @@ import java.util.List;
 public class InvoiceService {
     private final InvoiceRepository invoiceRepos;
     private final CustomerRepository customerRepos;
-    private final CarRepository carRepos;
     private final LogRepository logRepos;
     private final LogService logService;
     private final CustomerService customerService;
 
-    public InvoiceService(InvoiceRepository invoiceRepos, CustomerRepository customerRepos, CarRepository carRepos, LogRepository logRepos, LogService logService, CustomerService customerService) {
+    public InvoiceService(InvoiceRepository invoiceRepos, CustomerRepository customerRepos, LogRepository logRepos, LogService logService, CustomerService customerService) {
         this.invoiceRepos = invoiceRepos;
         this.customerRepos = customerRepos;
-        this.carRepos = carRepos;
         this.logRepos = logRepos;
         this.logService = logService;
         this.customerService = customerService;
@@ -37,11 +36,10 @@ public class InvoiceService {
         var optionalCustomer = customerRepos.findById(customerId);
 
         if(optionalCustomer.isPresent()) {
-            var customer = optionalCustomer.get();
-            var optionalCar = carRepos.findById(customer.getCar().getId());
+            Customer customer = optionalCustomer.get();
 
-            if(optionalCar.isPresent()){
-                var car = optionalCar.get();
+            if(customer.getCar() != null) {
+                Car car = customer.getCar();
                 double totalInvoiceCost = 0.0;
 
                 List<Log> finishedLogs = logService.logDtoListToLogList(logService.getLogsByStatus(car.getId(), Log.LogStatus.FINISHED.toString()));
@@ -51,7 +49,6 @@ public class InvoiceService {
                 }
 
                 invoice.setCustomer(customer);
-                invoice.setCar(car);
                 invoice.setFinishedLogs(finishedLogs);
                 invoice.setCostBeforeTax(totalInvoiceCost);
                 invoice.setCostAfterTax(totalInvoiceCost * 1.21);
@@ -66,7 +63,7 @@ public class InvoiceService {
 
                 return toInvoiceDto(invoice1);
             } else {
-                throw new RecordNotFoundException("Couldn't find car");
+                throw new RecordNotFoundException("No car registered to customer: " + customer.getFirstName() + " " + customer.getLastName());
             }
         } else {
             throw new RecordNotFoundException("Couldn't find customer");
@@ -109,15 +106,20 @@ public class InvoiceService {
         if(invoiceRepos.findById(id).isPresent()) {
             Invoice invoice = invoiceRepos.findById(id).get();
             List<Log> finishedLogs = invoice.getFinishedLogs();
+            List<Log> paidLogs = new ArrayList<>();
 
             for(Log log : finishedLogs) {
                 log.setLogStatus(Log.LogStatus.PAID);
                 logRepos.save(log);
+                paidLogs.add(log);
             }
 
+            invoice.setFinishedLogs(paidLogs);
             invoice.setPaid(true);
 
-            return toInvoiceDto(invoiceRepos.save(invoice));
+            invoiceRepos.save(invoice);
+
+            return toInvoiceDto(invoice);
         } else {
             throw new RecordNotFoundException("Couldn't find invoice");
         }
@@ -125,6 +127,17 @@ public class InvoiceService {
 
     public String deleteInvoice(Long id) {
         if(invoiceRepos.findById(id).isPresent()) {
+            Invoice invoice = invoiceRepos.findById(id).get();
+
+            invoice.setCustomer(null);
+
+            for(Log log : invoice.getFinishedLogs()) {
+                if(log.getInvoice() != null) {
+                    log.setInvoice(null);
+                    logRepos.save(log);
+                }
+            }
+
             invoiceRepos.deleteById(id);
 
             return "Invoice deleted";

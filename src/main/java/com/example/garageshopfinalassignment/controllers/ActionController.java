@@ -17,7 +17,6 @@ public class ActionController {
         this.actionService = actionService;
     }
 
-    // endpoints
     @PostMapping("/actions")
     public ResponseEntity<Object> addAction(@Valid @RequestBody ActionDto dto, BindingResult br) {
         if(br.hasErrors()) {

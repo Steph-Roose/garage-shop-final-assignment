@@ -1,47 +1,39 @@
 package com.example.garageshopfinalassignment.controllers;
 
-import com.example.garageshopfinalassignment.models.File;
-import com.example.garageshopfinalassignment.services.FileStorageService;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import com.example.garageshopfinalassignment.FileUploadResponse.FileUploadResponse;
+import com.example.garageshopfinalassignment.models.FileDocument;
+import com.example.garageshopfinalassignment.services.FileService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Objects;
 
 @Controller
 public class FileController {
-    private final FileStorageService fileStorageService;
+    private final FileService fileService;
 
-// constructor
-    public FileController(FileStorageService fileStorageService) {
-        this.fileStorageService = fileStorageService;
+    public FileController(FileService fileService) {
+        this.fileService = fileService;
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file")MultipartFile file) {
-        String message = "";
+    @PostMapping("/uploadfile")
+    public @ResponseBody FileUploadResponse uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("car_id") Long carId) throws IOException {
+        FileDocument fileDocument = fileService.uploadFileDocument(file, carId);
+        String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadfile/").path(Objects.requireNonNull(file.getOriginalFilename())).toUriString();
 
-        try{
-            fileStorageService.storeFile(file);
+        String contentType = file.getContentType();
 
-            message = "Uploaded file successfully: " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(message);
-        } catch (Exception e) {
-            message = "Could not upload file" + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
-        }
+        return new FileUploadResponse(fileDocument.getFileName(), contentType, url);
     }
 
-    @GetMapping("files/{id}")
-    public ResponseEntity<byte[]> getFile(@PathVariable Long id) {
-        File file = fileStorageService.getFileById(id);
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"")
-                .body(file.getDocFile());
+    @GetMapping("/downloadfile/{filename}")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable("filename") String fileName, HttpServletRequest request) {
+        return fileService.downloadFileDocument(fileName, request);
     }
 }

@@ -1,7 +1,5 @@
 package com.example.garageshopfinalassignment.models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -12,11 +10,9 @@ public class User {
     private String username;
     private String password;
 
-// relationships
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles;
 
-// getters
     public String getUsername() {
         return username;
     }
@@ -29,7 +25,6 @@ public class User {
         return roles;
     }
 
-// setters
     public void setUsername(String username) {
         this.username = username;
     }

@@ -1,8 +1,10 @@
 package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.dtos.PartDto;
+import com.example.garageshopfinalassignment.exceptions.BadRequestException;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Part;
+import com.example.garageshopfinalassignment.repositories.LogRepository;
 import com.example.garageshopfinalassignment.repositories.PartRepository;
 
 import org.springframework.stereotype.Service;
@@ -12,9 +14,11 @@ import java.util.*;
 @Service
 public class PartService {
     private final PartRepository partRepos;
+    private final LogRepository logRepos;
 
-    public PartService(PartRepository partRepos) {
+    public PartService(PartRepository partRepos, LogRepository logRepos) {
         this.partRepos = partRepos;
+        this.logRepos = logRepos;
     }
 
     public PartDto addPart(PartDto dto) {
@@ -50,11 +54,19 @@ public class PartService {
     }
 
     public String deletePart(Long id) {
-        if(partRepos.findById(id).isPresent()) {
-            String partName = partRepos.findById(id).get().getPartName();
-            partRepos.deleteById(id);
+        var optionalPart = partRepos.findById(id);
+        if(optionalPart.isPresent()) {
+            Part part = optionalPart.get();
+            var optionalLogList = logRepos.findByUsedPartsContains(part);
 
-            return "Part deleted: " + partName;
+            if(optionalLogList.isEmpty()) {
+                String partName = part.getPartName();
+                partRepos.deleteById(id);
+
+                return "Part deleted: " + partName;
+            } else {
+                throw new BadRequestException("Can't delete part. Part is used in " + optionalLogList.size() + " log(s).");
+            }
         } else {
             throw new RecordNotFoundException("Couldn't find part");
         }

@@ -1,9 +1,11 @@
 package com.example.garageshopfinalassignment.services;
 
 import com.example.garageshopfinalassignment.dtos.CustomerDto;
+import com.example.garageshopfinalassignment.exceptions.BadRequestException;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Customer;
 import com.example.garageshopfinalassignment.repositories.CustomerRepository;
+import com.example.garageshopfinalassignment.repositories.InvoiceRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,9 +16,12 @@ public class CustomerService {
     private final CustomerRepository customerRepos;
     private final CarService carService;
 
-    public CustomerService(CustomerRepository customerRepos, CarService carService) {
+    private final InvoiceRepository invoiceRepos;
+
+    public CustomerService(CustomerRepository customerRepos, CarService carService, InvoiceRepository invoiceRepos) {
         this.customerRepos = customerRepos;
         this.carService = carService;
+        this.invoiceRepos = invoiceRepos;
     }
 
     public CustomerDto addCustomer(CustomerDto dto) {
@@ -55,10 +60,16 @@ public class CustomerService {
     public String deleteCustomer(Long id) {
         var optionalCustomer = customerRepos.findById(id);
         if(optionalCustomer.isPresent()) {
-            String name = optionalCustomer.get().getFirstName() + " " + optionalCustomer.get().getLastName();
-            customerRepos.deleteById(id);
+            var optionalInvoiceList = invoiceRepos.findAllInvoicesByCustomerId(id);
 
-            return "Customer deleted: " + name;
+            if(optionalInvoiceList.isEmpty()) {
+                String name = optionalCustomer.get().getFirstName() + " " + optionalCustomer.get().getLastName();
+                customerRepos.deleteById(id);
+
+                return "Customer deleted: " + name;
+            } else {
+                throw new BadRequestException("Can't delete customer. Customer has " + optionalInvoiceList.size() + " invoice(s).");
+            }
         } else {
             throw new RecordNotFoundException("Couldn't find customer");
         }

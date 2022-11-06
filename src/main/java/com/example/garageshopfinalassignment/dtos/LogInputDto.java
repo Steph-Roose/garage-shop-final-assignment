@@ -1,15 +1,13 @@
 package com.example.garageshopfinalassignment.dtos;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 public class LogInputDto {
     @NotNull
-    private Long carId;
+    public Long carId;
     @NotNull
-    private Long actionId;
+    public Long actionId;
 
-    // constructors
     public LogInputDto() {
     }
 
@@ -18,7 +16,6 @@ public class LogInputDto {
         this.actionId = actionId;
     }
 
-    // getters
     public Long getCarId() {
         return carId;
     }
@@ -27,7 +24,6 @@ public class LogInputDto {
         return actionId;
     }
 
-    // setters
     public void setCarId(Long carId) {
         this.carId = carId;
     }

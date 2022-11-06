@@ -4,14 +4,13 @@ import javax.validation.constraints.Size;
 
 public class CarInputDto {
     @Size(min = 2, max = 30, message = "Brand should have at least 2 characters")
-    private String brand;
+    public String brand;
     @Size(min = 2, max = 30, message = "Model should have at least 2 characters")
-    private String model;
+    public String model;
     @Size(min = 8, max = 8, message = "Licence plate must be 8 characters")
-    private String licencePlate;
-    private Long customerId;
+    public String licencePlate;
+    public Long customerId;
 
-    //constructors
     public CarInputDto() {
     }
 
@@ -22,7 +21,6 @@ public class CarInputDto {
         this.customerId = customerId;
     }
 
-    // getters
     public String getBrand() {
         return brand;
     }
@@ -39,7 +37,6 @@ public class CarInputDto {
         return customerId;
     }
 
-    // setters
     public void setBrand(String brand) {
         this.brand = brand;
     }

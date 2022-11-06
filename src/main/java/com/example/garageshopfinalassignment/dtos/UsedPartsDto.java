@@ -4,12 +4,11 @@ import javax.validation.constraints.NotNull;
 
 public class UsedPartsDto {
     @NotNull
-    private Long partId;
-    private String partName;
+    public Long partId;
+    public String partName;
     @NotNull
-    private int quantity;
+    public int quantity;
 
-    // constructors
     public UsedPartsDto() {
     }
 
@@ -19,7 +18,6 @@ public class UsedPartsDto {
         this.quantity = quantity;
     }
 
-    // getters
     public Long getPartId() {
         return partId;
     }
@@ -32,7 +30,6 @@ public class UsedPartsDto {
         return quantity;
     }
 
-    // setters
     public void setPartId(Long partId) {
         this.partId = partId;
     }

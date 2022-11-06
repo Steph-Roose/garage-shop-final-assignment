@@ -1,7 +1,5 @@
 package com.example.garageshopfinalassignment.models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,17 +7,15 @@ import java.util.List;
 @Table(name="actions")
 public class Action {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     private String actionName;
     private double actionCost;
 
-// relationships
     @OneToMany(mappedBy = "action")
     private List<Log> logs;
 
-// constructors
     public Action() {
     }
 
@@ -29,7 +25,6 @@ public class Action {
         this.actionCost = actionCost;
     }
 
-// getters
     public Long getId() {
         return id;
     }
@@ -41,8 +36,6 @@ public class Action {
     public double getActionCost() {
         return actionCost;
     }
-
-// setters
 
     public void setId(Long id) {
         this.id = id;

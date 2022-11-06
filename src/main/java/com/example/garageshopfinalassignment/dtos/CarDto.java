@@ -1,17 +1,12 @@
 package com.example.garageshopfinalassignment.dtos;
 
-import com.example.garageshopfinalassignment.models.File;
-
-import java.util.List;
-
 public class CarDto {
     private Long id;
     private String brand;
     private String model;
     private String licencePlate;
-    private File carDocuments;
+    public String carDocumentsFileName;
 
-    //constructors
     public CarDto() {
     }
 
@@ -22,7 +17,14 @@ public class CarDto {
         this.licencePlate = licencePlate;
     }
 
-    // getters
+    public CarDto(Long id, String brand, String model, String licencePlate, String carDocumentsFileName) {
+        this.id = id;
+        this.brand = brand;
+        this.model = model;
+        this.licencePlate = licencePlate;
+        this.carDocumentsFileName = carDocumentsFileName;
+    }
+
     public Long getId() {
         return id;
     }
@@ -39,11 +41,10 @@ public class CarDto {
         return licencePlate;
     }
 
-    public File getCarDocuments() {
-        return carDocuments;
+    public String getCarDocumentsFileName() {
+        return carDocumentsFileName;
     }
 
-    // setters
     public void setId(Long id) {
         this.id = id;
     }
@@ -60,7 +61,7 @@ public class CarDto {
         this.licencePlate = licencePlate;
     }
 
-    public void setCarDocuments(File carDocuments) {
-        this.carDocuments = carDocuments;
+    public void setCarDocumentsFileName(String carDocumentsFileName) {
+        this.carDocumentsFileName = carDocumentsFileName;
     }
 }
