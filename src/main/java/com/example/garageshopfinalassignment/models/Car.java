@@ -13,15 +13,14 @@ public class Car {
     private String model;
     private String licencePlate;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="doc_id")
-    private File carDocuments;
-
     @OneToOne(mappedBy = "car")
-    @JoinColumn(name="customer_id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "car")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "file_id")
+    private FileDocument carDocuments;
+
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private List<Log> logBook;
 
     public Car() {
@@ -32,14 +31,6 @@ public class Car {
         this.brand = brand;
         this.model = model;
         this.licencePlate = licencePlate;
-    }
-
-    public Car(Long id, String brand, String model, String licencePlate, File carDocuments) {
-        this.id = id;
-        this.brand = brand;
-        this.model = model;
-        this.licencePlate = licencePlate;
-        this.carDocuments = carDocuments;
     }
 
     public Long getId() {
@@ -58,12 +49,12 @@ public class Car {
         return licencePlate;
     }
 
-    public File getCarDocuments() {
-        return carDocuments;
-    }
-
     public Customer getCustomer() {
         return customer;
+    }
+
+    public FileDocument getCarDocuments() {
+        return carDocuments;
     }
 
     public List<Log> getLogBook() {
@@ -86,12 +77,12 @@ public class Car {
         this.licencePlate = licencePlate;
     }
 
-    public void setCarDocuments(File carDocuments) {
-        this.carDocuments = carDocuments;
-    }
-
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public void setCarDocuments(FileDocument carDocuments) {
+        this.carDocuments = carDocuments;
     }
 
     public void setLogBook(List<Log> logBook) {

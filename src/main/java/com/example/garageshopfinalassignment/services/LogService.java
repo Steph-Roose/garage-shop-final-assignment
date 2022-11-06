@@ -4,6 +4,7 @@ import com.example.garageshopfinalassignment.dtos.LogDto;
 import com.example.garageshopfinalassignment.dtos.LogInputDto;
 import com.example.garageshopfinalassignment.dtos.PartDto;
 import com.example.garageshopfinalassignment.dtos.UsedPartsDto;
+import com.example.garageshopfinalassignment.exceptions.BadRequestException;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Log;
 import com.example.garageshopfinalassignment.models.Part;
@@ -156,10 +157,19 @@ public class LogService {
     }
 
     public String deleteLog(Long id) {
-        if(logRepos.findById(id).isPresent()) {
-            logRepos.deleteById(id);
+        var optionalLog = logRepos.findById(id);
 
-            return "Log deleted";
+        if(optionalLog.isPresent()) {
+            Log log = optionalLog.get();
+
+            if (log.getInvoice() == null) {
+                log.setCar(null);
+                logRepos.deleteById(id);
+
+                return "Log deleted";
+            } else {
+                throw new BadRequestException("Can't delete log. Log is part of invoice: " + log.getInvoice().getId());
+            }
         } else {
             throw new RecordNotFoundException("Couldn't find log");
         }

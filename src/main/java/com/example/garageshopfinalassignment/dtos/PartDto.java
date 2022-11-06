@@ -4,11 +4,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class PartDto {
-    private Long id;
+    public Long id;
     @NotBlank
-    private String partName;
+    public String partName;
     @NotNull
-    private double unitPrice;
+    public double unitPrice;
 
     public PartDto() {
     }

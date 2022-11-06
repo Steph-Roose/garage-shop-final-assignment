@@ -7,10 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
 
 @RestController
 public class CarController {
@@ -37,11 +35,6 @@ public class CarController {
     @GetMapping("/cars/{id}")
     public ResponseEntity<Object> getCarById(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(carService.getCarById(id));
-    }
-
-    @PatchMapping("/cars/{id}/documents")
-    public ResponseEntity<Object> addCarDocuments(@PathVariable("id") Long id, @RequestParam("file") MultipartFile file) throws IOException {
-        return ResponseEntity.ok().body(carService.addCarDocumentsToCar(id, file));
     }
 
     @PutMapping("/cars/{id}")

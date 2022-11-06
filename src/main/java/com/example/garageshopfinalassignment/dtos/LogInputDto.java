@@ -4,9 +4,9 @@ import javax.validation.constraints.NotNull;
 
 public class LogInputDto {
     @NotNull
-    private Long carId;
+    public Long carId;
     @NotNull
-    private Long actionId;
+    public Long actionId;
 
     public LogInputDto() {
     }

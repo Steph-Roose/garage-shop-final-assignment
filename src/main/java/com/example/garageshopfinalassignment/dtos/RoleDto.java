@@ -4,20 +4,20 @@ import javax.validation.constraints.NotBlank;
 
 public class RoleDto {
     @NotBlank
-    public String rolename;
+    public String roleName;
 
     public RoleDto() {
     }
 
-    public RoleDto(String rolename) {
-        this.rolename = rolename;
+    public RoleDto(String roleName) {
+        this.roleName = roleName;
     }
 
-    public String getRolename() {
-        return rolename;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRolename(String rolename) {
-        this.rolename = rolename;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }

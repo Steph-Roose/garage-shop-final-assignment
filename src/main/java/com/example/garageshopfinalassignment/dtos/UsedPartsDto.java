@@ -4,10 +4,10 @@ import javax.validation.constraints.NotNull;
 
 public class UsedPartsDto {
     @NotNull
-    private Long partId;
-    private String partName;
+    public Long partId;
+    public String partName;
     @NotNull
-    private int quantity;
+    public int quantity;
 
     public UsedPartsDto() {
     }

@@ -60,7 +60,7 @@ public class UserService {
         }
     }
 
-    private List<UserDto> userListToUserDtoList(List<User> users) {
+    public List<UserDto> userListToUserDtoList(List<User> users) {
         List<UserDto> dtoList = new ArrayList<>();
 
         for(User user : users) {
@@ -70,7 +70,7 @@ public class UserService {
         return dtoList;
     }
 
-    private User toUser(UserDto dto) {
+    public User toUser(UserDto dto) {
         var user = new User();
 
         user.setUsername(dto.getUsername());
@@ -90,7 +90,7 @@ public class UserService {
         return user;
     }
 
-    private UserDto toUserDto(User user) {
+    public UserDto toUserDto(User user) {
         UserDto dto = new UserDto();
 
         dto.setUsername(user.getUsername());

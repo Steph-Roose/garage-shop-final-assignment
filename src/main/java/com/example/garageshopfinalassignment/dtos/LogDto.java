@@ -5,13 +5,13 @@ import com.example.garageshopfinalassignment.models.Log;
 import java.util.List;
 
 public class LogDto {
-    private Long id;
-    private Log.LogStatus logStatus;
-    private double totalPartsCost;
-    private double totalCost;
-    private Long invoiceId;
-    private Long carId;
-    private ActionDto actionDto;
+    public Long id;
+    public Log.LogStatus logStatus;
+    public double totalPartsCost;
+    public double totalCost;
+    public Long invoiceId;
+    public Long carId;
+    public ActionDto actionDto;
 
     private List<PartDto> usedPartsDto;
 

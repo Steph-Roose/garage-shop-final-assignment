@@ -3,13 +3,13 @@ package com.example.garageshopfinalassignment.dtos;
 import javax.validation.constraints.*;
 
 public class ActionDto {
-    private Long id;
+    public Long id;
 
     @NotBlank
-    private String actionName;
+    public String actionName;
 
     @NotNull
-    private double actionCost;
+    public double actionCost;
 
     public ActionDto() {
     }
