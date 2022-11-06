@@ -5,10 +5,16 @@ public class CarDto {
     private String brand;
     private String model;
     private String licencePlate;
-
     public String carDocumentsFileName;
 
     public CarDto() {
+    }
+
+    public CarDto(Long id, String brand, String model, String licencePlate) {
+        this.id = id;
+        this.brand = brand;
+        this.model = model;
+        this.licencePlate = licencePlate;
     }
 
     public CarDto(Long id, String brand, String model, String licencePlate, String carDocumentsFileName) {

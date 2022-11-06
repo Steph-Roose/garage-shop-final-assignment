@@ -35,8 +35,12 @@ public class LogController {
     }
 
     @GetMapping("/logs")
-    public ResponseEntity<Object> getLogsByCarId(@RequestParam(value = "car_id") Long carId) {
-        return ResponseEntity.ok().body(logService.getLogsByCarId(carId));
+    public ResponseEntity<Object> getLogsByCarId(@RequestParam(value = "car_id") Long carId, @RequestParam(value = "status", required = false) String status ) {
+        if(status.isEmpty()) {
+            return ResponseEntity.ok().body(logService.getLogsByCarId(carId));
+        } else {
+            return ResponseEntity.ok().body(logService.getLogsByStatus(carId, status));
+        }
     }
 
     @GetMapping("/logs/{id}")
