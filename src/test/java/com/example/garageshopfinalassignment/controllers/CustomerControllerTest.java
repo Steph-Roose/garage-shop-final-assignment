@@ -111,7 +111,7 @@ class CustomerControllerTest {
     void getCustomer() throws Exception {
         given(customerService.getCustomerById(2L)).willReturn(customerDto2);
 
-        mockMvc.perform(get("/customers/1"))
+        mockMvc.perform(get("/customers/2"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(2L))
                 .andExpect(jsonPath("firstName").value("Charles"))
