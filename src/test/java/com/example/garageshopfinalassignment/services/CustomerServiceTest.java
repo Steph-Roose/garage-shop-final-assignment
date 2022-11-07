@@ -8,6 +8,7 @@ import com.example.garageshopfinalassignment.models.Car;
 import com.example.garageshopfinalassignment.models.Customer;
 import com.example.garageshopfinalassignment.repositories.CarRepository;
 import com.example.garageshopfinalassignment.repositories.CustomerRepository;
+import com.example.garageshopfinalassignment.repositories.InvoiceRepository;
 import com.example.garageshopfinalassignment.security.JwtRequestFilter;
 import com.example.garageshopfinalassignment.security.JwtService;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +24,7 @@ import org.mockito.quality.Strictness;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +48,7 @@ class CustomerServiceTest {
     CarRepository carRepos;
 
     @Mock
-    CarService carService;
+    InvoiceRepository invoiceRepos;
 
     @InjectMocks
     CustomerService customerService;
@@ -160,7 +162,10 @@ class CustomerServiceTest {
 
     @Test
     void deleteCustomer() {
+        List emptyList = new ArrayList();
+
         when(customerRepos.findById(1L)).thenReturn(Optional.of(customer1));
+        when(invoiceRepos.findAllInvoicesByCustomerId(1L)).thenReturn(emptyList);
 
         customerService.deleteCustomer(1L);
 

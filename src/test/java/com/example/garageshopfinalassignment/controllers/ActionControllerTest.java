@@ -27,8 +27,8 @@ import java.util.List;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ActionController.class)
@@ -39,10 +39,10 @@ class ActionControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    JwtService jwtService;
+    private JwtService jwtService;
 
     @MockBean
-    JwtRequestFilter jwtRequestFilter;
+    private JwtRequestFilter jwtRequestFilter;
 
     @MockBean
     private ActionService actionService;
@@ -94,6 +94,7 @@ class ActionControllerTest {
         given(actionService.getActionById(1L)).willReturn(dto1);
 
         mockMvc.perform(get("/actions/1"))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(1L))
                 .andExpect(jsonPath("actionName").value("Check-up"))
@@ -106,7 +107,7 @@ class ActionControllerTest {
 
         mockMvc.perform(put("/actions/2")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(dto1)))
+                        .content(asJsonString(dto2)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(2L))
                 .andExpect(jsonPath("actionName").value("Change tires"))
@@ -119,7 +120,7 @@ class ActionControllerTest {
                 .andExpect(status().isOk());
     }
 
-    public static String asJsonString(final ActionDto obj) {
+    public static String asJsonString(ActionDto obj) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());

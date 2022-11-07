@@ -3,6 +3,7 @@ package com.example.garageshopfinalassignment.services;
 import com.example.garageshopfinalassignment.dtos.PartDto;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Part;
+import com.example.garageshopfinalassignment.repositories.LogRepository;
 import com.example.garageshopfinalassignment.repositories.PartRepository;
 import com.example.garageshopfinalassignment.security.JwtRequestFilter;
 import com.example.garageshopfinalassignment.security.JwtService;
@@ -19,6 +20,7 @@ import org.mockito.quality.Strictness;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +39,9 @@ class PartServiceTest {
 
     @Mock
     PartRepository partRepos;
+
+    @Mock
+    LogRepository logRepos;
 
     @InjectMocks
     PartService partService;
@@ -125,7 +130,10 @@ class PartServiceTest {
 
     @Test
     void deletePart() {
+        List emptyList = new ArrayList();
+
         when(partRepos.findById(1L)).thenReturn(Optional.of(part1));
+        when(logRepos.findByUsedPartsContains(part1)).thenReturn(emptyList);
 
         partService.deletePart(1L);
 

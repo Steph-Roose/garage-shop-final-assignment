@@ -4,6 +4,7 @@ import com.example.garageshopfinalassignment.dtos.ActionDto;
 import com.example.garageshopfinalassignment.exceptions.RecordNotFoundException;
 import com.example.garageshopfinalassignment.models.Action;
 import com.example.garageshopfinalassignment.repositories.ActionRepository;
+import com.example.garageshopfinalassignment.repositories.LogRepository;
 import com.example.garageshopfinalassignment.security.JwtRequestFilter;
 import com.example.garageshopfinalassignment.security.JwtService;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +20,7 @@ import org.mockito.quality.Strictness;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +39,9 @@ class ActionServiceTest {
 
     @Mock
     ActionRepository actionRepos;
+
+    @Mock
+    LogRepository logRepos;
 
     @InjectMocks
     ActionService actionService;
@@ -126,7 +131,10 @@ class ActionServiceTest {
 
     @Test
     void deleteAction() {
+        List emptyList = new ArrayList();
+
         when(actionRepos.findById(1L)).thenReturn(Optional.of(action1));
+        when(logRepos.findByAction_Id(1L)).thenReturn(emptyList);
 
         actionService.deleteAction(1L);
 

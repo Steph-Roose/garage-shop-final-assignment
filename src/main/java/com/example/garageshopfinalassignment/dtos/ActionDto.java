@@ -1,6 +1,7 @@
 package com.example.garageshopfinalassignment.dtos;
 
 import javax.validation.constraints.*;
+import java.util.Objects;
 
 public class ActionDto {
     public Long id;
@@ -42,5 +43,18 @@ public class ActionDto {
 
     public void setActionCost(double actionCost) {
         this.actionCost = actionCost;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ActionDto actionDto = (ActionDto) o;
+        return Double.compare(actionDto.actionCost, actionCost) == 0 && id.equals(actionDto.id) && actionName.equals(actionDto.actionName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, actionName, actionCost);
     }
 }
